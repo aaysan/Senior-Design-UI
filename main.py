@@ -44,6 +44,12 @@ def show_options():
     temperature = "%0d C" % (weather["Temperature"] - 273)
     return render_template('post_login_main.html',name=Information.name,temperature=temperature)
 
+@app.route("/add_clothes")
+def add_clothes():
+    weather = gw.get_weather_info()
+    temperature = "%0d C" % (weather["Temperature"] - 273)
+    return render_template('add_clothes.html', name=Information.name,temperature=temperature)
+
 
 
 if __name__ == '__main__':

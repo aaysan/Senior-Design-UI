@@ -33,23 +33,25 @@
 </style>
 </head>
 <body>
-	<link  rel = "stylesheet" href = "static/styles/style.css">
+	<link  rel = "stylesheet" href = "style.css">
 	<div class="backimage">
 		<div class="maintext">
-			<h1 style="font-size: 30px">{{ name }}</h1>
+			<h1 style="font-size: 50px"> {{name}} </h1>
 		</div>
 		<div class="weather">
 			<h1 style="font-size: 30px">Temperature: {{ temperature }}</h1>
 		</div>
-			<center>
-				<p>
-					<button onclick="window.location.href='/add_clothes'"class="func Add">Add Clothes</button>
-					<button onclick="location.href='display.html'"class="func Select">Select Clothes</button>
-					<button onclick="location.href='Recommend.html'"class="func Recommend">Recommend Clothes</button>
-					<button onclick="location.href='Sophia.html'"class="func Remove">Remove Clothes</button>
-				</p>
-			</center>
-			<button onclick="location.href='index.html'"class="back Home">Home</button>
-	</div>
 
+		<center>
+			<h5>Add Clothes Instruction</h5>
+			<p>
+				<li>
+					<font size = "5" color = "Navy">Please put each clothes in front of the Camera.</font>
+				</li>
+			</p>
+		</center>
+
+		<button onclick="location.href='index.html'"class="back Home">Home</button>
+		<button onclick="location.href='Sophia.html'"class="back Main" style=" margin-left: 20%;">Main</button>
+	</div>
 </body>

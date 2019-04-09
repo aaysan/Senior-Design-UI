@@ -64,7 +64,7 @@ sub {
 .Confirm {color: darkgreen;}
 .Submit {color: black;}
 
-/* .loginbtn {
+.func {
 	border: none;
 	margin-top: 15%;
 	margin-left: 10%;
@@ -74,10 +74,11 @@ sub {
     font-size: 32px;
     cursor: pointer;
     display: inline-block;
-} */
+		color: red
+}
 .Add {color: Red}
 .Select {color: Black}
-/*
+
 .dropdown {
 	position: relative;
 	display: inline-block;
@@ -101,8 +102,8 @@ sub {
 }
 
 .dropdown a:hover {background-color: #ddd;}
-*/
-.func2 {
+
+ .func2 {
 	border: none;
 	margin-top: 5%;
 	margin-left: 6%;
@@ -256,6 +257,7 @@ sub {
 }
 
 /*--- DROPDOWN ---*/
+
 #nav ul{
 	background:#fff; /* Adding a background makes the dropdown work properly in IE7+. Make this as close to your page's background as possible (i.e. white page == white background). */
 	background:rgba(255,255,255,0); /* But! Let's make the background fully transparent where we can, we don't actually want to see it if we can help it... */
