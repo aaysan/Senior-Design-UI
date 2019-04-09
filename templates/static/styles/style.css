@@ -66,18 +66,22 @@ sub {
 
 .func {
 	border: none;
-	margin-top: 15%;
-	margin-left: 10%;
-	margin-right: 5%;
+	margin-top: 100px;
+	margin-left: 100px;
+	margin-right: 100px;
     background-color: white;
-    padding: 14px 80px;
+    /*padding: 14px 120px; */
+    height: 50px;
+    width: 360px;
     font-size: 32px;
     cursor: pointer;
     display: inline-block;
-		color: red
+		color: black
 }
-.Add {color: Red}
-.Select {color: Black}
+.Add {color: black}
+.Select {color: black}
+
+.func:hover {background: #993366; text-decoration: underline;}
 
 .dropdown {
 	position: relative;
@@ -115,8 +119,8 @@ sub {
     display: inline-block;
 }
 .func2:hover {background: blue; text-decoration: underline;}
-.Recommend {color: lightgreen;}
-.Remove {color: orange;}
+.Recommend {color: black;}
+.Remove {color: black;}
 
 .func3 {
 	border: none;
@@ -134,9 +138,8 @@ sub {
 
 .back {
 	border: none;
-	position: absolute;
-	bottom: 10%;
-	margin-left: 8%;
+	margin-top: 6%;
+	margin-left: 20%;
 	margin-right: 6%;
     background-color: lightgrey;
     padding: 14px 40px;
@@ -148,6 +151,7 @@ sub {
 .Main {color: red;}
 .Main:hover {background: #993366; text-decoration: underline;}
 
+.Logout {margin-left: 25%}
 
 /*------------------------------------*\
 	CHECKBOX
