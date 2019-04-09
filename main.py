@@ -20,7 +20,6 @@ class Information:
         return
 
 
-
 @app.route("/",methods=['GET', 'POST'])
 def hello():
     return render_template('main_page.html')
