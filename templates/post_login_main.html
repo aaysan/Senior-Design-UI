@@ -1,0 +1,55 @@
+<style type="text/css">
+	body {
+		margin: 0;
+	}
+
+    .backimage {
+		background-image: url("static/media/main_background.png");
+		background-color: #cccccc;
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: cover;
+		position: relative;
+		height: 800px;
+	}
+
+	.maintext {
+  		text-align: left;
+  		position: absolute;
+  		top: 10%;
+  		left: 20%;
+  		transform: translate(-50%, -50%);
+  		color: navy;
+	}
+	.weather {
+		text-align: right;
+		position: absolute;
+		top: 10%;
+		right: 3%;
+		transform: translate(-50%, -50%);
+		color: navy;
+	}
+
+</style>
+</head>
+<body>
+	<link  rel = "stylesheet" href = "static/styles/style.css">
+	<div class="backimage">
+		<div class="maintext">
+			<h1 style="font-size: 30px">{{ name }}</h1>
+		</div>
+		<div class="weather">
+			<h1 style="font-size: 30px">Temperature: {{ temperature }}</h1>
+		</div>
+			<center>
+				<p>
+					<button class="Add">Add Clothes</button>
+					<!-- <button onclick="location.href='display.html'"class="loginbtn Select">Select Clothes</button>
+					<button onclick="location.href='Recommend.html'"class="loginbtn Recommend">Recommend Clothes</button>
+					<button onclick="location.href='Sophia.html'"class="loginbtn Remove">Remove Clothes</button> -->
+				</p>
+			</center>
+			<button onclick="location.href='index.html'"class="back Home">Home</button>
+	</div>
+
+</body>
