@@ -1,0 +1,56 @@
+<style type="text/css">
+	body {
+		margin: 0;
+	}
+
+    .backimage {
+		background-image: url("wardrobe.jpg");
+		background-color: #cccccc;
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: cover;
+		position: relative;
+		height: 800px;
+	}
+
+	.maintext {
+  		text-align: left;
+  		position: absolute;
+  		top: 10%;
+  		left: 20%;
+  		transform: translate(-50%, -50%);
+  		color: navy;
+	}
+	.weather {
+		text-align: right;
+		position: absolute;
+		top: 10%;
+		right: 3%;
+		transform: translate(-50%, -50%);
+		color: navy;
+	}
+
+</style>
+</head>
+<body>
+	<link  rel = "stylesheet" href = "static/css/style.css">
+	<div class="backimage">
+		<div class="maintext">
+			<h1 style="font-size: 50px">Hello Sophia!</h1>
+			<h1>Select Clothes</h1>
+		</div>
+		<div class="weather">
+			<h1 style="font-size: 30px">Weather</h1>
+		</div>
+
+		<center>
+			<img src = "clothes.jpg" alt = "My Photo" style = "width:400px; height 350px; position: absolute; top: 150px; left: 240px">
+			<img src = "clothes.jpg" alt = "My Photo" style = "width:400px; height 350px; position: absolute; top: 150px; left: 800px">
+			<img src = "clothes.jpg" alt = "My Photo" style = "width:400px; height 350px; position: absolute; top: 400px; left: 240px">
+			<img src = "clothes.jpg" alt = "My Photo" style = "width:400px; height 350px; position: absolute; top: 400px; left: 800px">
+		</center>
+
+		<button onclick="location.href='/logged_in'"class="back Home">Home</button>
+		<button onclick="location.href='/'"class="back Main" style=" margin-left: 20%;">Main</button>
+	</div>
+</body>

@@ -1,0 +1,148 @@
+<style type="text/css">
+	body {
+		margin: 0;
+	}
+
+	.backimage {
+		background-image: url({{ url_for('static', filename='media/main_background.png') }});
+		background-color: #cccccc;
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: cover;
+		-webkit-background-size: cover;
+		-moz-background-size: cover;
+		-o-background-size: cover;
+		position: relative;
+		height: 100%;
+	}
+
+	.maintext {
+		text-align: left;
+		position: absolute;
+		top: 10%;
+		left: 20%;
+		transform: translate(-50%, -50%);
+		color: navy;
+	}
+	.weather {
+		text-align: right;
+		position: absolute;
+		top: 10%;
+		right: 3%;
+		transform: translate(-50%, -50%);
+		color: navy;
+	}
+
+</style>
+</head>
+<body>
+	<link  rel = "stylesheet" href = "{{ url_for('static', filename='css/style.css') }}">
+	<div class="backimage">
+		<div class="maintext">
+			<h1 style="font-size: 30px; text-align:center" id="tempid1"> {{ name }} </h1>
+			<h1 style="font-size: 30px; text-align:center"> Please select your clothes</h1>
+		</div>
+		<div class="weather">
+			<h1 style="font-size: 30px;" id="tempid2">Weather</h1>
+			<h1 style="font-size: 30px;" id="tempid3">Temperature</h1>
+			</div>
+
+			<center>
+				<!-- <blockquote class="imgur-embed-pub" lang="en" data-id="KUteCdn"><a href="//imgur.com/KUteCdn">View post on imgur.com</a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script> -->
+				<div>
+					<figure>
+						<img src="static/media/clothes.jpg" alt = "My Photo" style = "width:400px; height 350px; position: absolute; top: 150px; left: 100px" id="im1">
+						<figcaption id="fig1" style = "color: white; width:400px; height 350px; position: absolute; top: 130px; left: 100px">Fig.1 - Trulli, Puglia, Italy.</figcaption>
+					</figure>
+
+					<figure>
+						<img src="static/media/clothes.jpg" alt="clothes.jpg" style = "width:400px; height 350px; position: absolute; top: 150px; left: 900px" id="im2">
+						<figcaption id="fig2" style = "color: white;width:400px; height 350px; position: absolute; top: 130px; left: 900px">Fig.1 - Trulli, Puglia, Italy.</figcaption>
+					</figure>
+					<figure>
+						<img src = "static/media/clothes.jpg" alt = "My Photo" style = "width:400px; height 350px; position: absolute; top: 400px; left: 100px" id="im3">
+						<figcaption id="fig3" style = "color: white;width:400px; height 350px; position: absolute; top: 380px; left: 100px">Fig.1 - Trulli, Puglia, Italy.</figcaption>
+					</figure>
+					<figure>
+						<img src = "static/media/clothes.jpg" alt = "My Photo" style = "width:400px; height 350px; position: absolute; top: 400px; left: 900px" id="im4">
+						<figcaption id="fig4" style = "color: white;width:400px; height 350px; position: absolute; top: 380px; left: 900px" >Fig.1 - Trulli, Puglia, Italy.</figcaption>
+					</figure>
+				</div>
+
+			</center>
+
+
+
+		</div>
+		<center>
+			<div>
+				<button onclick="location.href='/logged_in'"class="back Home">Home</button>
+				<button onclick="location.href='/'"class="back Main" style=" margin-left: 20%;">Main</button>
+			</div>
+			</center>
+
+		<script>
+			var url_string = window.location.href
+			var url = new URL(url_string);
+			// var name = url.searchParams.get("name");
+			// const idelement = document.getElementById("tempid1");
+			// idelement.innerHTML =  name;
+		</script>
+
+		<script>
+			const data = fetch(
+			"https://webhooks.mongodb-stitch.com/api/client/v2.0/app/our_last_hackson-sfrvf/service/weather/incoming_webhook/get_weather"
+			).then(response => response.json())
+			.then(json => {
+				const idelement2 = document.getElementById("tempid2");
+				idelement2.innerHTML = "Weather: "+ json["Description"];
+				const idelement3 = document.getElementById("tempid3");
+				idelement3.innerHTML = "Temperature "+ json["Temperature"]["$numberDouble"] + "C";
+			})
+		</script>
+
+		<script>
+			var url_string = window.location.href
+			var url = new URL(url_string);
+			var name = url.searchParams.get("name");
+			var otype = url.searchParams.get("occasion_type");
+			const data2 = fetch(
+			"https://webhooks.mongodb-stitch.com/api/client/v2.0/app/our_last_hackson-sfrvf/service/upload_img/incoming_webhook/find_cloth?name=" + name + "&occasion_type=" + otype
+			).then(response => response.json())
+			.then(json => {
+				const image1 = document.getElementById("im1");
+				const image2 = document.getElementById("im2");
+				const image3 = document.getElementById("im3");
+				const image4 = document.getElementById("im4");
+
+				const fig1 = document.getElementById("fig1");
+				const fig2 = document.getElementById("fig2");
+				const fig3 = document.getElementById("fig3");
+				const fig4 = document.getElementById("fig4");
+				console.log(json);
+				console.log(json[0]["url"]);
+				image1.src = json[0]["url"];
+				image2.src = json[1]["url"];
+				image3.src = json[2]["url"];
+				image4.src = json[3]["url"];
+
+				fig1.innerHTML = json[0]["cloth"]['name'] + " , " + json[0]["cloth"]['Occasion']  + " , " + json[0]["color"]['name'];
+				fig2.innerHTML = json[1]["cloth"]['name'] + " , " + json[1]["cloth"]['Occasion']  + " , " + json[1]["color"]['name'];
+				fig3.innerHTML = json[2]["cloth"]['name'] + " , " + json[2]["cloth"]['Occasion']  + " , " + json[2]["color"]['name'];
+				fig4.innerHTML = json[3]["cloth"]['name'] + " , " + json[3]["cloth"]['Occasion']  + " , " + json[3]["color"]['name'];
+
+				return(json);
+			});
+			console.log(data2);
+			document.getElementById('b1').onclick = function() {
+				window.location.href =  "../index?name=" + name + "&occasion_type=" + otype;
+			}
+			document.getElementById('b2').onclick = function() {
+				window.location.href =  "../Sophia?name=" + name + "&occasion_type=" + otype;
+			}
+
+		</script>
+
+
+
+	</body>

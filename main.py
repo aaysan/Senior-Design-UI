@@ -7,11 +7,12 @@ sys.path.insert(0, './../Senior_Design/')
 from flask import request
 from flask import render_template
 from flask import Flask
+import requests
 import re
 import blttest as b
 import get_weather as gw
 
-app = Flask(__name__,static_url_path='/static')
+app = Flask(__name__,instance_relative_config=False)
 
 class Information:
     name = ""
@@ -50,6 +51,34 @@ def add_clothes():
     temperature = "%0d C" % (weather["Temperature"] - 273)
     return render_template('add_clothes.html', name=Information.name,temperature=temperature)
 
+@app.route("/remove_clothes")
+def remove_clothes():
+    weather = gw.get_weather_info()
+    temperature = "%0d C" % (weather["Temperature"] - 273)
+    return render_template('display.html', name=Information.name,temperature=temperature)
+
+
+@app.route("/display_clothes")
+def display_clothes():
+    weather = gw.get_weather_info()
+    temperature = "%0d C" % (weather["Temperature"] - 273)
+    return render_template('select_clothes.html', name=Information.name)
+
+@app.route("/recommend_clothes")
+def recommend_clothes():
+    weather = gw.get_weather_info()
+    temperature = "%0d C" % (weather["Temperature"] - 273)
+    return render_template('recommend_clothes.html', name=Information.name,temperature=temperature)
+
+@app.after_request
+def add_header(response):
+    """
+    Add headers to both force latest IE rendering engine or Chrome Frame,
+    and also to cache the rendered page for 10 minutes.
+    """
+    response.headers['X-UA-Compatible'] = 'chrome=1'
+    response.headers['Cache-Control'] = 'public, max-age=0'
+    return response
 
 
 if __name__ == '__main__':

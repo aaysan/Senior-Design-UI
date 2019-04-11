@@ -138,20 +138,23 @@ sub {
 
 .back {
 	border: none;
-	margin-top: 6%;
-	margin-left: 20%;
-	margin-right: 6%;
-    background-color: lightgrey;
-    padding: 14px 40px;
-    font-size: 30px;
+	margin-top: 100px;
+	margin-left: 100px;
+	margin-right: 100px;
+    background-color: lightgray;
+    /*padding: 14px 120px; */
+    height: 50px;
+    width: 360px;
+    font-size: 32px;
     cursor: pointer;
+    display: inline-block;
+		color: orange
+	background-image: url('static/media/main_background.png')
 }
 .back:hover {background: #993366; text-decoration: underline;}
-.back {color: red;}
-.Main {color: red;}
+.Main {color: orange;}
 .Main:hover {background: #993366; text-decoration: underline;}
-
-.Logout {margin-left: 25%}
+/* .Logout {margin-left: 25%} */
 
 /*------------------------------------*\
 	CHECKBOX

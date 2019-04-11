@@ -1,0 +1,71 @@
+<style type="text/css">
+	body {
+		margin: 0;
+	}
+
+    .backimage {
+		background-image: url("wardrobe.jpg");
+		background-color: #cccccc;
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: cover;
+		position: relative;
+		height: 800px;
+	}
+
+	.maintext {
+  		text-align: left;
+  		position: absolute;
+  		top: 10%;
+  		left: 20%;
+  		transform: translate(-50%, -50%);
+  		color: navy;
+	}
+	.weather {
+		text-align: right;
+		position: absolute;
+		top: 10%;
+		right: 3%;
+		transform: translate(-50%, -50%);
+		color: navy;
+	}
+
+</style>
+</head>
+<body>
+	<link  rel = "stylesheet" href = "static/css/style.css">
+	<div class="backimage">
+		<div class="maintext">
+			<h1 style="font-size: 50px">Hello Sophia!</h1>
+		</div>
+		<div class="weather">
+			<h1 style="font-size: 30px">Weather</h1>
+		</div>
+
+		<center>
+			<h5>Suggest Clothes</h5>
+		</center>
+		<p>
+			<h1 style="color: navy; padding-left: 10%">Occasions?</h1>
+				<label class="container">Daily
+  					<input type="radio" name="radio">
+  					<span class="checkmark"></span>
+				</label>
+				<label class="container">Bussiness Causal
+  					<input type="radio" name="radio">
+  					<span class="checkmark"></span>
+				</label>
+				<label class="container">Cocktail Attire
+  					<input type="radio" name="radio">
+  					<span class="checkmark"></span>
+				</label>
+				<label class="container">Wedding
+  					<input type="radio" name="radio">
+  					<span class="checkmark"></span>
+				</label>
+				<button onclick="location.href='http://www.google.com'"class="func3 Submit">Submit</button>
+		</p>
+		<button onclick="window.location.href='/logged_in'"class="back Home">Home</button>
+		<button onclick="location.href='Sophia.html'"class="back Main" style=" margin-left: 20%;">Main</button>
+	</div>
+</body>

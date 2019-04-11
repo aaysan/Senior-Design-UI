@@ -1,57 +1,86 @@
 <style type="text/css">
-	body {
-		margin: 0;
-	}
+  .btn-primary { background-color: #69B241 }
 
-    .backimage {
-		background-image: url("static/media/main_background.png");
-		background-color: #cccccc;
-		background-position: center;
-		background-repeat: no-repeat;
-		background-size: cover;
-		position: relative;
-		height: 800px;
-	}
+  .backimage {
+    background-image: url({{ url_for('static', filename='media/main_background.png') }});
+    background-color: #cccccc;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    position: relative;
+    height: 100%;
+  }
 
-	.maintext {
-  		text-align: relative;
-  		position: absolute;
-  		top: 10%;
-  		left: 10%;
-  		transform: translate(-50%, -50%);
-  		color: navy;
-	}
-	.weather {
-		text-align: relative;
-		position: absolute;
-		top: 10%;
-		right: -200;
-		transform: translate(-50%, -50%);
-		color: navy;
-	}
+  #success { color: green; }
+  #error { color: red; }
+  #note { font-size: 0.75em; }
 
+  #image {
+    width: 100%;
+    min-height: 120px;
+    max-height: 500px;
+    margin-top: 10px;
+  }
+
+  #spinner { margin-left: 10px; }
+  .hidden { display: none; }
 </style>
-</head>
-<body>
-	<link  rel = "stylesheet" href = "style.css">
-	<div class="backimage">
-		<div class="maintext">
-			<h1 style="font-size: 50px"> {{name}} </h1>
-		</div>
-		<div class="weather">
-			<h1 style="font-size: 30px">Temperature: {{ temperature }}</h1>
-		</div>
 
-		<center>
-			<h5> Add Clothes</h5>
-			<p>
-				
-				<font size = "5" color = "Navy" text-align= "center;">Please put each clothes in front of the Camera.</font>
-				
-			</p>
-		</center>
+<!-- Base Stitch Browser SDK -->
+<script src="https://s3.amazonaws.com/stitch-sdks/js/bundles/4.0.13/stitch.js"></script>
+<!-- Stitch AWS SDK -->
+<script src="https://s3.amazonaws.com/stitch-sdks/js/bundles/4.0.13/stitch-services-aws.js"></script>
 
-		<button onclick="location.href='index.html'"class="back Home" style="  position:absolute;top:0;left:0;">Home</button>
-		<button onclick="location.href='Sophia.html'"class="back Main" style="  position:absolute;top:0;right:0;">Main</button>
-	</div>
-</body>
+<div class="backimage">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <div id="image">
+    <img id="uploaded-image" class="hidden" />
+    <div id="uploaded-image-placeholder" class="uploaded-image-placeholder">
+      Uploaded Image Will Appear Here
+    </div>
+  </div>
+  <center>
+    <h1>Waiting for picture to be taken... press back home when done</h1>
+    <div>
+      <button onclick="location.href='/logged_in'"class="back Home">Home</button>
+      <button onclick="location.href='/'"class="back Main" style=" margin-left: 20%;">Main</button>
+    </div>
+  </center>
+
+
+  </div>
+
+
+  <script>
+      var url_string = window.location.href
+      var url = new URL(url_string);
+      var name = url.searchParams.get("name");
+      var otype = url.searchParams.get("occasion_type");
+      const data2 = fetch(
+         "https://webhooks.mongodb-stitch.com/api/client/v2.0/app/our_last_hackson-sfrvf/service/add_cloth/incoming_webhook/request_add_cloth?natat=sucks&name=" + name
+       ).then(response => response.json())
+       .then(json => {
+         console.log(json);
+       })
+
+      //  console.log(data2);
+      //  document.getElementById('b1').onclick = function() {
+      //    window.location.href =  "../index?name=" + name + "&occasion_type=" + otype;
+      //  }
+      //  document.getElementById('b2').onclick = function() {
+      //    window.location.href =  "../Sophia?name=" + name + "&occasion_type=" + otype;
+      //  }
+
+       </script>
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+	 	<script>
+			console.log(`123`);
+			checkForNewData2();
+	 </script>
+
+
+</div>
