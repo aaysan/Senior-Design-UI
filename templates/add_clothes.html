@@ -14,18 +14,18 @@
 	}
 
 	.maintext {
-  		text-align: left;
+  		text-align: relative;
   		position: absolute;
   		top: 10%;
-  		left: 20%;
+  		left: 10%;
   		transform: translate(-50%, -50%);
   		color: navy;
 	}
 	.weather {
-		text-align: right;
+		text-align: relative;
 		position: absolute;
 		top: 10%;
-		right: 3%;
+		right: -200;
 		transform: translate(-50%, -50%);
 		color: navy;
 	}
@@ -43,15 +43,15 @@
 		</div>
 
 		<center>
-			<h5>Add Clothes Instruction</h5>
+			<h5> Add Clothes</h5>
 			<p>
-				<li>
-					<font size = "5" color = "Navy">Please put each clothes in front of the Camera.</font>
-				</li>
+				
+				<font size = "5" color = "Navy" text-align= "center;">Please put each clothes in front of the Camera.</font>
+				
 			</p>
 		</center>
 
-		<button onclick="location.href='index.html'"class="back Home">Home</button>
-		<button onclick="location.href='Sophia.html'"class="back Main" style=" margin-left: 20%;">Main</button>
+		<button onclick="location.href='index.html'"class="back Home" style="  position:absolute;top:0;left:0;">Home</button>
+		<button onclick="location.href='Sophia.html'"class="back Main" style="  position:absolute;top:0;right:0;">Main</button>
 	</div>
 </body>
