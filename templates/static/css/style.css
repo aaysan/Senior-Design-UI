@@ -138,10 +138,10 @@ sub {
 
 .back {
 	border: none;
-	margin-top: 100px;
+	margin-top: 5%;
 	margin-left: 100px;
 	margin-right: 100px;
-    background-color: lightgray;
+    background-color: #FF69B4;
     /*padding: 14px 120px; */
     height: 50px;
     width: 360px;

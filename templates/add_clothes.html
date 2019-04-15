@@ -1,86 +1,66 @@
 <style type="text/css">
-  .btn-primary { background-color: #69B241 }
+  body {
+    margin: 0;
+  }
 
-  .backimage {
-    background-image: url({{ url_for('static', filename='media/main_background.png') }});
+    .backimage {
+    background-image: url("../static/media/main_background.png");
     background-color: #cccccc;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
     position: relative;
-    height: 100%;
+    height: 800px;
   }
 
-  #success { color: green; }
-  #error { color: red; }
-  #note { font-size: 0.75em; }
-
-  #image {
-    width: 100%;
-    min-height: 120px;
-    max-height: 500px;
-    margin-top: 10px;
+  .maintext {
+      text-align: left;
+      position: absolute;
+      top: 10%;
+      left: 20%;
+      transform: translate(-50%, -50%);
+      color: navy;
+  }
+  .weather {
+    text-align: right;
+    position: absolute;
+    top: 10%;
+    right: 3%;
+    transform: translate(-50%, -50%);
+    color: navy;
   }
 
-  #spinner { margin-left: 10px; }
-  .hidden { display: none; }
 </style>
+</head>
+<body>
+  <link rel="stylesheet" type= "text/css" href = "static/css/style.css?q=1280549782">
 
-<!-- Base Stitch Browser SDK -->
-<script src="https://s3.amazonaws.com/stitch-sdks/js/bundles/4.0.13/stitch.js"></script>
-<!-- Stitch AWS SDK -->
-<script src="https://s3.amazonaws.com/stitch-sdks/js/bundles/4.0.13/stitch-services-aws.js"></script>
-
-<div class="backimage">
-
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-  <div id="image">
-    <img id="uploaded-image" class="hidden" />
-    <div id="uploaded-image-placeholder" class="uploaded-image-placeholder">
-      Uploaded Image Will Appear Here
+  <div class="backimage">
+    <div class="maintext">
+      <h1 style="font-size: 30px">{{ name }}</h1>
     </div>
-  </div>
-  <center>
-    <h1>Waiting for picture to be taken... press back home when done</h1>
-    <div>
-      <button onclick="location.href='/logged_in'"class="back Home">Home</button>
-      <button onclick="location.href='/'"class="back Main" style=" margin-left: 20%;">Main</button>
+    <div class="weather">
+      <h1 style="font-size: 30px">Temperature: {{ temperature }}</h1>
     </div>
-  </center>
+    <center>
+      <h1>We will add clothes later</h1>
+    </center>
+      <!-- <center>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p>
 
-
+          <button onclick="window.location.href='/add_clothes'"class="func Add">Add Clothes</button>
+          <button onclick="window.location.href='/display_clothes'"class="func Select">Select Clothes</button>
+          <button onclick="window.location.href='/recommend_clothes'"class="func Recommend">Recommend Clothes</button>
+          <button onclick="window.location.href='/remove_clothes'"class="func Remove">Remove Clothes</button>
+        </p>
+      </center> -->
+      <center>
+        <button onclick="location.href='post_login_main.html'"class="back Home">Home</button>
+        <button onclick="location.href='main_page.html'"class="back Logout">Logout</button>
+      </center>
   </div>
 
-
-  <script>
-      var url_string = window.location.href
-      var url = new URL(url_string);
-      var name = url.searchParams.get("name");
-      var otype = url.searchParams.get("occasion_type");
-      const data2 = fetch(
-         "https://webhooks.mongodb-stitch.com/api/client/v2.0/app/our_last_hackson-sfrvf/service/add_cloth/incoming_webhook/request_add_cloth?natat=sucks&name=" + name
-       ).then(response => response.json())
-       .then(json => {
-         console.log(json);
-       })
-
-      //  console.log(data2);
-      //  document.getElementById('b1').onclick = function() {
-      //    window.location.href =  "../index?name=" + name + "&occasion_type=" + otype;
-      //  }
-      //  document.getElementById('b2').onclick = function() {
-      //    window.location.href =  "../Sophia?name=" + name + "&occasion_type=" + otype;
-      //  }
-
-       </script>
-    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
-	 	<script>
-			console.log(`123`);
-			checkForNewData2();
-	 </script>
-
-
-</div>
+</body>
