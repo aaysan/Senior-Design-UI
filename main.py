@@ -4,10 +4,8 @@ sys.path.insert(0, './../Senior_Design/')
 # print(sys.path)
 
 
-from flask import request
 from flask import render_template
 from flask import Flask
-import requests
 import re
 import blttest as b
 import get_weather as gw
@@ -15,7 +13,7 @@ import get_weather as gw
 app = Flask(__name__,instance_relative_config=False)
 
 class Information:
-    name = ""
+    name = "Alp Aysan"
 
     def __init__(self):
         return
