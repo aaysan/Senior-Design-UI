@@ -1,4 +1,4 @@
-#Mehmet Alp Aysan
+# Mehmet Alp Aysan
 import sys
 import os
 sys.path.insert(0, './../Senior_Design/')
@@ -18,13 +18,15 @@ import json
 import random
 
 from flask_cors import CORS
-app = Flask(__name__,instance_relative_config=False)
+app = Flask(__name__, instance_relative_config=False)
 CORS(app)
+
 
 class Clothes:
     def __init__(self, filename, owner, position, description="T-Shirt", in_closet=True, color="#fff", occasion="Casual"):
         self.filename = filename
-        self.static_filename = "static/{}/{}".format(owner.replace(" ", "_"), filename)
+        self.static_filename = "static/{}/{}".format(
+            owner.replace(" ", "_"), filename)
         self.owner = owner
         self.position = position
         self.description = description
@@ -32,6 +34,12 @@ class Clothes:
         self.color = color
         self.occasion = occasion
 
+    def __repr__(self):
+        sb = []
+        for key in self.__dict__:
+            sb.append("{key}='{value}'".format(key=key, value=self.__dict__[key]))
+
+        return ', '.join(sb)
 
 
 class Information:
@@ -39,11 +47,11 @@ class Information:
     count = 0
     filename_to_clothes = {
         # Dummy inits
-        '1111.jpg' : Clothes('1111.jpg', 'Alp Aysan', 1),
-        '2222.jpg' : Clothes('2222.jpg', 'Alp Aysan', 2, description='tshirt2'),
-        '3333.jpg' : Clothes('3333.jpg', 'Alp Aysan', 3, description='jeans'),
-        '4444.jpg' : Clothes('4444.jpg', 'Alp Aysan', 4, description='random'),
-        '5555.jpg' : Clothes('5555.jpg', 'Alp Aysan', 5, description='alp'),
+        '1111.jpg': Clothes('1111.jpg', 'Alp Aysan', 1),
+        '2222.jpg': Clothes('2222.jpg', 'Alp Aysan', 2, description='tshirt2'),
+        '3333.jpg': Clothes('3333.jpg', 'Alp Aysan', 3, description='jeans'),
+        '4444.jpg': Clothes('4444.jpg', 'Alp Aysan', 4, description='random'),
+        '5555.jpg': Clothes('5555.jpg', 'Alp Aysan', 5, description='alp'),
 
     }
 
@@ -51,15 +59,16 @@ class Information:
         return
 
 
-@app.route("/",methods=['GET', 'POST'])
+@app.route("/", methods=['GET', 'POST'])
 def hello():
     return render_template('main_page.html')
+
 
 @app.route("/fr_res")
 def face_recog():
     a = b.get_name()
     pattern = r'Name:(.*)\n'
-    res = re.findall(pattern,a)
+    res = re.findall(pattern, a)
 
     if len(res) > 0:
         name = res[0].strip()
@@ -67,6 +76,7 @@ def face_recog():
         if name != 'outsider':
             return render_template('main_page_recognized.html', name=name)
     return render_template('main_page_not_recognized.html')
+
 
 @app.route("/logged_in")
 def show_options():
@@ -76,14 +86,15 @@ def show_options():
         time.sleep(3)
     weather = gw.get_weather_info()
     temperature = "%0d C" % (weather["Temperature"] - 273)
-    return render_template('post_login_main.html',name=Information.name,temperature=temperature)
+    return render_template('post_login_main.html', name=Information.name, temperature=temperature)
+
 
 @app.route("/add_clothes", methods=['GET', 'POST'])
 def add_clothes():
     if request.method == 'POST':
         if 'take_pic' in request.form:
 
-            #Take Picture
+            # Take Picture
 
             split_name = Information.name.split()
             name = Information.name
@@ -97,21 +108,20 @@ def add_clothes():
 
             ret, frame = cap.read()
             cap.release()
-            
 
-            opening_slot = 1 # TODO (logic to find opening space)
+            opening_slot = 1  # TODO (logic to find opening space)
             # TODO (what happens if all spots are filled??)
             filename = str(random.getrandbits(128)) + '.jpg'
-            Information.filename_to_clothes[filename] = Clothes(filename, Information.name, opening_slot)
+            Information.filename_to_clothes[filename] = Clothes(
+                filename, Information.name, opening_slot)
             file_path = Information.filename_to_clothes[filename].static_filename
-            print(file_path)
             cv2.imwrite(file_path, frame)
             names, colors = Apparel.finditemandcolor(file_path)
-            
+
             # Change camelCase to camel case
-            print(colors)
             for item in colors:
-                item['name'] = re.sub("([a-z])([A-Z])","\g<1> \g<2>", item['name'])
+                item['name'] = re.sub(
+                    "([a-z])([A-Z])", "\g<1> \g<2>", item['name'])
 
             return render_template('add_new_radio_buttons.html', names=names, colors=colors, filename=filename)
 
@@ -120,11 +130,17 @@ def add_clothes():
 
     weather = gw.get_weather_info()
     temperature = "%0d C" % (weather["Temperature"] - 273)
-    return render_template('add_clothes.html', name=Information.name,temperature=temperature)
+    return render_template('add_clothes.html', name=Information.name, temperature=temperature)
+
 
 @app.route("/add_new_clothes", methods=['GET'])
 def add_new_clothes():
-    return "{},{}".format(request.args['desc'], request.args['color'])
+    filename = request.args['filename']
+    Information.filename_to_clothes[filename].description = request.args['desc']
+    Information.filename_to_clothes[filename].color = request.args['color']
+    # print(Information.filename_to_clothes[filename])
+    return str(Information.filename_to_clothes[filename])
+
 
 @app.route("/remove_clothes")
 def remove_clothes():
@@ -138,16 +154,19 @@ def remove_clothes():
         data.append(clothe)
     return render_template('remove_clothes.html', name=Information.name, temperature=temperature, filename_tup=data, data_len=len(data))
 
+
 @app.route("/retrieve_select_loading")
 def retrieve_select_loading():
     filename = request.args.get('clothe')
     return render_template('load.html', filename=filename)
+
 
 @app.route("/retrieve_select_done")
 def retrieve_select_done():
     time.sleep(3)
     filename = request.args.get('clothe')
     return "done fetching {}".format(filename)
+
 
 @app.route("/close_door_begin")
 def close_door_begin():
@@ -160,11 +179,13 @@ def display_clothes():
     temperature = "%0d C" % (weather["Temperature"] - 273)
     return render_template('select_clothes.html', name=Information.name)
 
+
 @app.route("/recommend_clothes")
 def recommend_clothes():
     weather = gw.get_weather_info()
     temperature = "%0d C" % (weather["Temperature"] - 273)
-    return render_template('recommend_clothes.html', name=Information.name,temperature=temperature)
+    return render_template('recommend_clothes.html', name=Information.name, temperature=temperature)
+
 
 @app.after_request
 def add_header(response):
