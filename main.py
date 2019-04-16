@@ -1,5 +1,6 @@
 #Mehmet Alp Aysan
 import sys
+import os
 sys.path.insert(0, './../Senior_Design/')
 # print(sys.path)
 
@@ -15,7 +16,9 @@ import cv2
 import Apparel
 import json
 
+from flask_cors import CORS
 app = Flask(__name__,instance_relative_config=False)
+CORS(app)
 
 class Information:
     name = "Alp Aysan"
@@ -45,7 +48,10 @@ def face_recog():
 
 @app.route("/logged_in")
 def show_options():
-
+    if request.args.get('door_close'):
+        print("please call close door")
+        # call blttest.close_door()
+        time.sleep(3)
     weather = gw.get_weather_info()
     temperature = "%0d C" % (weather["Temperature"] - 273)
     return render_template('post_login_main.html',name=Information.name,temperature=temperature)
@@ -80,15 +86,29 @@ def add_clothes():
 def remove_clothes():
     weather = gw.get_weather_info()
     temperature = "%0d C" % (weather["Temperature"] - 273)
-    #
-    if (Information.flag == 1):
-        Information.flag = 0
-        time.sleep(50)
-        render_template('display.html',name=Information.name,temperature=temperature)
-    # return make_response('POST request successful', 200)
-    #
-    Information.flag = 1
-    return render_template('temp.html', name=Information.name,temperature=temperature)
+    data = []
+    for i, filename in enumerate(os.listdir("./static/{}".format(Information.name.replace(" ", "_")))):
+        name = filename.rsplit(".")[0].split(',')[-1]
+        filename = "static/{}/{}".format(Information.name.replace(" ", "_"), filename)
+        print(name)
+        data.append([i + 1, filename, name])
+    print(data)
+    return render_template('display.html', name=Information.name, temperature=temperature, filename_tup=data, data_len=len(data))
+
+@app.route("/retrieve_select_loading")
+def retrieve_select_loading():
+    filename = request.args.get('clothe')
+    return render_template('load.html', filename=filename)
+
+@app.route("/retrieve_select_done")
+def retrieve_select_done():
+    time.sleep(3)
+    filename = request.args.get('clothe')
+    return "done fetching {}".format(filename)
+
+@app.route("/close_door_begin")
+def close_door_begin():
+    return render_template('close_door.html')
 
 
 @app.route("/display_clothes")

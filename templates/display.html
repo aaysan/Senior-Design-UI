@@ -1,191 +1,206 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>  <!-- Css File YOu can also Create separate file for css and then link into HTML file -->
-* {box-sizing:border-box}
-body {font-family: Verdana,sans-serif;margin:0}
-.mySlides {display:none}
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    < !-- Css File YOu can also Create separate file for css and then link into HTML file -->* {
+      box-sizing: border-box
+    }
 
-/* Slideshow container */
-.slideshow-container {
-  max-width: 1000px;
-  position: relative;
-  left: 20%;
-  margin: auto;
-}
+    body {
+      font-family: Verdana, sans-serif;
+      margin: 0
+    }
 
-/* Next & previous buttons */
-.prev, .next {
-  cursor: pointer;
-  position: absolute;
-  top: 50%;
-  width: auto;
-  padding: 16px;
-  margin-top: -22px;
-  color: grey;
-  font-weight: bold;
-  font-size: 18px;
-  transition: 0.6s ease;
-  border-radius: 0 3px 3px 0;
-}
+    .mySlides {
+      display: none
+    }
 
-/* Position the "next button" to the right */
-.next {
-  right: 500px;
-  border-radius: 3px 0 0 3px;
-}
+    /* Slideshow container */
+    .slideshow-container {
+      max-width: 1000px;
+      position: relative;
+      left: 20%;
+      margin: auto;
+    }
 
-/* On hover, add a black background color with a little bit see-through */
-.prev:hover, .next:hover {
-  background-color: rgba(0,0,0,0.8);
-}
+    /* Next & previous buttons */
+    .prev,
+    .next {
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      width: auto;
+      padding: 16px;
+      margin-top: -22px;
+      color: grey;
+      font-weight: bold;
+      font-size: 18px;
+      transition: 0.6s ease;
+      border-radius: 0 3px 3px 0;
+    }
 
-/* Caption text */
-.text {
-  color: black;
-  font-size: 15px;
-  padding: 8px 12px;
-  position: absolute;
-  bottom: 8px;
-  width: 100%;
-  text-align: relative;
-}
+    /* Position the "next button" to the right */
+    .next {
+      right: 500px;
+      border-radius: 3px 0 0 3px;
+    }
 
-/* Number text (1/3 etc) */
-.numbertext {
-  color: gray;
-  font-size: 12px;
-  padding: 8px 12px;
-  position: absolute;
-  top: 0;
-}
+    /* On hover, add a black background color with a little bit see-through */
+    .prev:hover,
+    .next:hover {
+      background-color: rgba(0, 0, 0, 0.8);
+    }
 
-/* The dots/bullets/indicators */
-.dot {
-  cursor:pointer;
-  height: 13px;
-  width: 13px;
-  margin: 0 2px;
-  background-color: #bbb;
-  border-radius: 50%;
-  display: inline-block;
-  transition: background-color 0.6s ease;
-}
+    /* Caption text */
+    .text {
+      color: black;
+      font-size: 15px;
+      padding: 8px 12px;
+      position: absolute;
+      bottom: 8px;
+      width: 100%;
+      text-align: relative;
+    }
 
-.active, .dot:hover {
-  background-color: #717171;
-}
+    /* Number text (1/3 etc) */
+    .numbertext {
+      color: gray;
+      font-size: 12px;
+      padding: 8px 12px;
+      position: absolute;
+      top: 0;
+    }
 
-.buttons {
-  color: black;
-  font-size: 15px;
-  position: absolute;
-  top: 8px;
-  width: 100%;
-  text-align: relative;
-}
+    /* The dots/bullets/indicators */
+    .dot {
+      cursor: pointer;
+      height: 13px;
+      width: 13px;
+      margin: 0 2px;
+      background-color: #bbb;
+      border-radius: 50%;
+      display: inline-block;
+      transition: background-color 0.6s ease;
+    }
+
+    .active,
+    .dot:hover {
+      background-color: #717171;
+    }
+
+    .buttons {
+      color: black;
+      font-size: 15px;
+      position: absolute;
+      top: 8px;
+      width: 100%;
+      text-align: relative;
+    }
 
 
-/* Fading animation */
-.fade {
-  -webkit-animation-name: fade;
-  -webkit-animation-duration: 1.5s;
-  animation-name: fade;
-  animation-duration: 1.5s;
-}
+    /* Fading animation */
+    .fade {
+      -webkit-animation-name: fade;
+      -webkit-animation-duration: 1.5s;
+      animation-name: fade;
+      animation-duration: 1.5s;
+    }
 
-@-webkit-keyframes fade {
-  from {opacity: .4} 
-  to {opacity: 1}
-}
+    @-webkit-keyframes fade {
+      from {
+        opacity: .4
+      }
 
-@keyframes fade {
-  from {opacity: .4} 
-  to {opacity: 1}
-}
+      to {
+        opacity: 1
+      }
+    }
 
-/* On smaller screens, decrease text size */
-@media only screen and (max-width: 300px) {
-  .prev, .next,.text {font-size: 11px}
-}
-</style>
+    @keyframes fade {
+      from {
+        opacity: .4
+      }
+
+      to {
+        opacity: 1
+      }
+    }
+
+    /* On smaller screens, decrease text size */
+    @media only screen and (max-width: 300px) {
+
+      .prev,
+      .next,
+      .text {
+        font-size: 11px
+      }
+    }
+  </style>
 </head>
+
 <body>
+  <link  rel = "stylesheet" href = "static/css/style.css">
+  <div class="slideshow-container">
+    <br />
+    <!--This is a comment. Comments are not displayed in the browser <marquee><b><i>Welcome To Your Closet</i></b></marquee> -->
+    <br /><br /><br /><br />
 
-<div class="slideshow-container">
-<br />
-<!--This is a comment. Comments are not displayed in the browser <marquee><b><i>Welcome To Your Closet</i></b></marquee> -->
-<br /><br /><br /><br />
-<div class="mySlides fade">
-  <div class="numbertext">1 / 3</div>
-  <div class = "buttons">
-  <button onclick="plusSlides(1)" >Select</button>
+    {% for item in filename_tup %}
+    <div class="mySlides fade">
+      <div class="numbertext">{{ item[0] }} / {{ data_len }}</div>
+
+      <div class="buttons">
+        <button onclick="window.location.href='/retrieve_select_loading?clothe={{item[1]}}'">Select</button>
+      </div>
+      <img src="{{item[1]}}" height="600" style="width:50%">
+      <div class="text">{{item[2]}}</div>
+    </div>
+    {% endfor %}
+
+    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+    <a class="next" onclick="plusSlides(1)">&#10095;</a>
+
   </div>
-  <img src="static/{{name}}/1.jpg" height="600" style="width:50%">
-  <div class="text">T-shirt</div>
-</div>
+  <br>
 
-<div class="mySlides fade">
-  <div class="numbertext">2 / 3</div>
-  <img src="static/{{name}}/2.jpg" height="600" style="width:50%">
-  <div class = "buttons">
-  <button onclick="plusSlides(2)">Select</button>
+  <div style="text-align:center">
+    {% for item in filename_tup %}
+    <span class="dot" onclick="currentSlide({{ item[0] }})"></span>
+    {% endfor %}
   </div>
-  <div class="text">Collar Shirt</div>
-</div>
 
-<div class="mySlides fade">
-  <div class="numbertext">3 / 3</div>
-  <img src="static/{{name}}/3.jpg" height="600" style="width:50%">
-  <div class = "buttons">
-  <button onclick="plusSlides(-1)">Select</button>
-  </div>
-  <div class="text">Jeans</div>
-</div>
+  <script>				/* Javascript Code You can Create separate file for Javascript */
+    var slideIndex = 1;
+    showSlides(slideIndex);
 
+    function plusSlides(n) {
+      showSlides(slideIndex += n);
+    }
 
+    function currentSlide(n) {
+      showSlides(slideIndex = n);
+    }
 
-<a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-<a class="next" onclick="plusSlides(1)">&#10095;</a>
+    function showSlides(n) {
+      var i;
+      var slides = document.getElementsByClassName("mySlides");
+      var dots = document.getElementsByClassName("dot");
+      if (n > slides.length) { slideIndex = 1 }
+      if (n < 1) { slideIndex = slides.length }
+      for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+      }
+      for (i = 0; i < dots.length; i++) {
+        dots[i].className = dots[i].className.replace(" active", "");
+      }
+      slides[slideIndex - 1].style.display = "block";
+      dots[slideIndex - 1].className += " active";
+    }
 
-</div>
-<br>
-
-<div style="text-align:center">
-  <span class="dot" onclick="currentSlide(1)"></span> 
-  <span class="dot" onclick="currentSlide(2)"></span> 
-  <span class="dot" onclick="currentSlide(3)"></span> 
-</div>
-
-<script>				/* Javascript Code You can Create separate file for Javascript */
-var slideIndex = 1;
-showSlides(slideIndex);
-
-function plusSlides(n) {
-  showSlides(slideIndex += n);
-}
-
-function currentSlide(n) {
-  showSlides(slideIndex = n);
-}
-
-function showSlides(n) {
-  var i;
-  var slides = document.getElementsByClassName("mySlides");
-  var dots = document.getElementsByClassName("dot");
-  if (n > slides.length) {slideIndex = 1}    
-  if (n < 1) {slideIndex = slides.length}
-  for (i = 0; i < slides.length; i++) {
-      slides[i].style.display = "none";  
-  }
-  for (i = 0; i < dots.length; i++) {
-      dots[i].className = dots[i].className.replace(" active", "");
-  }
-  slides[slideIndex-1].style.display = "block";  
-  dots[slideIndex-1].className += " active";
-}
-</script>
+  </script>
 
 </body>
-</html> 
+
+</html>
