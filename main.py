@@ -20,10 +20,31 @@ from flask_cors import CORS
 app = Flask(__name__,instance_relative_config=False)
 CORS(app)
 
+class Clothes:
+    def __init__(self, filename, owner, position, description="T-Shirt", in_closet=True, color="#fff", occasion="Casual"):
+        self.filename = filename
+        self.static_filename = "static/{}/{}".format(owner.replace(" ", "_"), filename)
+        self.owner = owner
+        self.position = position
+        self.description = description
+        self.in_closet = in_closet
+        self.color = color
+        self.occasion = occasion
+
+
+
 class Information:
     name = "Alp Aysan"
-    flag = 0
     count = 0
+    filename_to_clothes = {
+        # Dummy inits
+        '1111.jpg' : Clothes('1111.jpg', 'Alp Aysan', 1),
+        '2222.jpg' : Clothes('2222.jpg', 'Alp Aysan', 2, description='tshirt2'),
+        '3333.jpg' : Clothes('3333.jpg', 'Alp Aysan', 3, description='jeans'),
+        '4444.jpg' : Clothes('4444.jpg', 'Alp Aysan', 4, description='random'),
+        '5555.jpg' : Clothes('5555.jpg', 'Alp Aysan', 5, description='alp'),
+
+    }
 
     def __init__(self):
         return
@@ -72,17 +93,18 @@ def add_clothes():
                 name = split_name[0]
                 last_name = split_name[1]
 
-            cap = cv2.VideoCapture(0)
-            time.sleep(0.5)
+            # cap = cv2.VideoCapture(0)
+            # time.sleep(0.5)
 
-            ret, frame = cap.read()
-            file_path = name + "_" + last_name + "/" + name + "_" + last_name + str(Information.count) + ".png"
-            cv2.imwrite(file_path, frame)
+            # ret, frame = cap.read()
+            # file_path = name + "_" + last_name + "/" + name + "_" + last_name + str(Information.count) + ".png"
+            # cv2.imwrite(file_path, frame)
+            file_path = "./static/Alp_Aysan/1111.jpg"
 
             temp1, temp2 = Apparel.finditemandcolor(file_path)
 
-            cap.release
-            print("released")
+            # cap.release
+            # print("released")
 
             return json.dumps([temp1,temp2])
 
@@ -98,13 +120,12 @@ def remove_clothes():
     weather = gw.get_weather_info()
     temperature = "%0d C" % (weather["Temperature"] - 273)
     data = []
-    for i, filename in enumerate(os.listdir("./static/{}".format(Information.name.replace(" ", "_")))):
-        name = filename.rsplit(".")[0].split(',')[-1]
-        filename = "static/{}/{}".format(Information.name.replace(" ", "_"), filename)
-        print(name)
-        data.append([i + 1, filename, name])
-    print(data)
-    return render_template('display.html', name=Information.name, temperature=temperature, filename_tup=data, data_len=len(data))
+    for filename in os.listdir("./static/{}".format(Information.name.replace(" ", "_"))):
+        clothe = Information.filename_to_clothes[filename]
+        if not clothe.in_closet:
+            continue
+        data.append(clothe)
+    return render_template('remove_clothes.html', name=Information.name, temperature=temperature, filename_tup=data, data_len=len(data))
 
 @app.route("/retrieve_select_loading")
 def retrieve_select_loading():

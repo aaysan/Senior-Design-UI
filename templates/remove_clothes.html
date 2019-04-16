@@ -149,13 +149,13 @@
 
     {% for item in filename_tup %}
     <div class="mySlides fade">
-      <div class="numbertext">{{ item[0] }} / {{ data_len }}</div>
+      <div class="numbertext">{{ item.position }} / {{ data_len }}</div>
 
       <div class="buttons">
-        <button onclick="window.location.href='/retrieve_select_loading?clothe={{item[1]}}'">Select</button>
+        <button onclick="window.location.href='/retrieve_select_loading?clothe={{item.filename}}'">Select</button>
       </div>
-      <img src="{{item[1]}}" height="600" style="width:50%">
-      <div class="text">{{item[2]}}</div>
+      <img src="{{item.static_filename}}" height="600" style="width:50%">
+      <div class="text">{{item.description}}</div>
     </div>
     {% endfor %}
 
@@ -167,7 +167,7 @@
 
   <div style="text-align:center">
     {% for item in filename_tup %}
-    <span class="dot" onclick="currentSlide({{ item[0] }})"></span>
+    <span class="dot" onclick="currentSlide({{ item.position }})"></span>
     {% endfor %}
   </div>
 
