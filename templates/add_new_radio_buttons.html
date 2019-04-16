@@ -40,7 +40,7 @@
 			<input type="hidden" name="filename" value="{{filename}}">
 			<p>Please select the appropriate description</p>
 			{% for item in names %}
-				<input id="{{item['value']}}" type="radio" value="{{item['name']}}" name="desc">
+				<input id="{{item['value']}}" type="radio" value="{{item['name']}},{{item['Occasion']}}" name="desc">
 				<label for="{{item['value']}}">{{item['name']}}</label>
 				<br>
 			{% endfor %}
