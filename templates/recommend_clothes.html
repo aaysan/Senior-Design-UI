@@ -47,23 +47,12 @@
 		</center>
 		<p>
 			<h1 style="color: navy; padding-left: 10%">Occasions?</h1>
-				<label class="container">Daily
-  					<input type="radio" name="radio">
-  					<span class="checkmark"></span>
-				</label>
-				<label class="container">Bussiness Causal
-  					<input type="radio" name="radio">
-  					<span class="checkmark"></span>
-				</label>
-				<label class="container">Cocktail Attire
-  					<input type="radio" name="radio">
-  					<span class="checkmark"></span>
-				</label>
-				<label class="container">Wedding
-  					<input type="radio" name="radio">
-  					<span class="checkmark"></span>
-				</label>
-				<button onclick="location.href='http://www.google.com'"class="func3 Submit">Submit</button>
+			<form method="post">
+				<input type="radio" name="options" id="option1" value="Sports|Activewear"> Sports|Activewear </input><br>
+				<input type="radio" name="options" id="option2" value="Business|Business Casual"> Business|Business Casual </input><br>
+				<input type="radio" name="options" id="option3" value="Casual|Daily"> Casual|Daily </input><br>
+				<input type="submit" name = "submit_occasion" value="Submit">
+			</form>
 		</p>
 		<button onclick="window.location.href='post_login_main.html'"class="back Home">Home</button>
 		<button onclick="location.href='main_page.html'"class="back Main" style=" margin-left: 20%;">Main</button>

@@ -17,6 +17,7 @@ import json
 import random
 import pickle as pkl
 import pprint
+import make_suggestions as ms
 
 from flask_cors import CORS
 app = Flask(__name__, instance_relative_config=False)
@@ -83,6 +84,8 @@ def hello():
 
 @app.route("/fr_res")
 def face_recog():
+    global VIEWER_NAME
+
     a = b.get_name()
     pattern = r'Name:(.*)\n'
     res = re.findall(pattern, a)
@@ -135,9 +138,13 @@ def add_new_clothes():
     opening_slot = _find_opening_slot()
     # TODO (what happens if all spots are filled??)
     filename = str(random.getrandbits(32)) + '.jpg'
+
     FILENAME_TO_CLOTHES[filename] = Clothes(
         filename, VIEWER_NAME, opening_slot, in_closet=False)
+
+
     file_path = FILENAME_TO_CLOTHES[filename].static_filename
+
     cv2.imwrite(file_path, frame)
     names, colors = Apparel.finditemandcolor(file_path)
 
@@ -155,6 +162,7 @@ def add_new_clothes_response():
     FILENAME_TO_CLOTHES[filename].description = request.args['desc']
     if 'color' in request.args:
         FILENAME_TO_CLOTHES[filename].color = request.args['color']
+
 
     return render_template('load.html', filename=filename,
                            title="Finding an opening for {}".format(request.args['desc']), mode="add-existing")
@@ -227,10 +235,27 @@ def close_door_begin():
     return render_template('close_door.html', title=title, mode=mode, filename=request.args.get('filename'))
 
 
-@app.route("/recommend_clothes")
+@app.route("/recommend_clothes",methods=['GET','POST'])
 def recommend_clothes():
-    weather = {'Temperature': 300}  # gw.get_weather_info()
+    weather = gw.get_weather_info()
     temperature = "%0d C" % (weather["Temperature"] - 273)
+
+    if request.method == 'POST':
+        occasion = request.form['options']
+
+        possible_attires = []
+        for filename, item in FILENAME_TO_CLOTHES.items():
+            # print("----------------------------")
+            # print(VIEWER_NAME)
+            # print(item.owner)
+            if item.owner == VIEWER_NAME:
+                possible_attires.append(item)
+
+        result = ms.make_suggestions(weather,occasion,possible_attires)
+
+
+        return occasion
+
     return render_template('recommend_clothes.html', name=VIEWER_NAME, temperature=temperature)
 
 
