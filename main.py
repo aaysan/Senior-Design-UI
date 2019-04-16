@@ -5,15 +5,22 @@ sys.path.insert(0, './../Senior_Design/')
 
 
 from flask import render_template
+from flask import request
 from flask import Flask
 import re
 import blttest as b
 import get_weather as gw
+import time
+import cv2
+import Apparel
+import json
 
 app = Flask(__name__,instance_relative_config=False)
 
 class Information:
     name = "Alp Aysan"
+    flag = 0
+    count = 0
 
     def __init__(self):
         return
@@ -43,8 +50,28 @@ def show_options():
     temperature = "%0d C" % (weather["Temperature"] - 273)
     return render_template('post_login_main.html',name=Information.name,temperature=temperature)
 
-@app.route("/add_clothes")
+@app.route("/add_clothes", methods=['GET', 'POST'])
 def add_clothes():
+
+
+    if request.method == 'POST':
+        if 'take_pic' in request.form:
+
+            #Take Picture
+            cap = cv2.VideoCapture(0)
+            time.sleep(0.5)
+
+            ret, frame = cap.read()
+            file_path = Information.name + str(Information.count) + ".png"
+            cv2.imwrite(file_path, frame)
+
+            temp1, temp2 = Apparel.finditemandcolor(file_path)
+
+            cap.release
+            print("released")
+
+            return json.dumps([temp1,temp2])
+
     weather = gw.get_weather_info()
     temperature = "%0d C" % (weather["Temperature"] - 273)
     return render_template('add_clothes.html', name=Information.name,temperature=temperature)
@@ -53,7 +80,15 @@ def add_clothes():
 def remove_clothes():
     weather = gw.get_weather_info()
     temperature = "%0d C" % (weather["Temperature"] - 273)
-    return render_template('display.html', name=Information.name,temperature=temperature)
+    #
+    if (Information.flag == 1):
+        Information.flag = 0
+        time.sleep(50)
+        render_template('display.html',name=Information.name,temperature=temperature)
+    # return make_response('POST request successful', 200)
+    #
+    Information.flag = 1
+    return render_template('temp.html', name=Information.name,temperature=temperature)
 
 
 @app.route("/display_clothes")
@@ -80,4 +115,4 @@ def add_header(response):
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)

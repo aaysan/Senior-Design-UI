@@ -43,21 +43,15 @@
       <h1 style="font-size: 30px">Temperature: {{ temperature }}</h1>
     </div>
     <center>
-      <h1>We will add clothes later</h1>
-    </center>
-      <!-- <center>
-        <p>&nbsp;</p>
-        <p>&nbsp;</p>
-        <p>&nbsp;</p>
-        <p>
+      <h1>Press the button when you are ready to add the image</h1>
 
-          <button onclick="window.location.href='/add_clothes'"class="func Add">Add Clothes</button>
-          <button onclick="window.location.href='/display_clothes'"class="func Select">Select Clothes</button>
-          <button onclick="window.location.href='/recommend_clothes'"class="func Recommend">Recommend Clothes</button>
-          <button onclick="window.location.href='/remove_clothes'"class="func Remove">Remove Clothes</button>
-        </p>
-      </center> -->
+    </center>
+
       <center>
+        <form method="post">
+          <input class = "func" type="submit" name="take_pic" value="Take a Picture">
+        </form>
+
         <button onclick="location.href='post_login_main.html'"class="back Home">Home</button>
         <button onclick="location.href='main_page.html'"class="back Logout">Logout</button>
       </center>
