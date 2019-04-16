@@ -152,14 +152,15 @@ def add_new_clothes():
     for item in colors:
         item['name'] = re.sub(
             "([a-z])([A-Z])", "\g<1> \g<2>", item['name'])
-
+                
     return render_template('add_new_radio_buttons.html', names=names, colors=colors, filename=filename)
 
 
 @app.route("/add_new_clothes_response", methods=['GET'])
 def add_new_clothes_response():
     filename = request.args['filename']
-    FILENAME_TO_CLOTHES[filename].description = request.args['desc']
+    FILENAME_TO_CLOTHES[filename].description = request.args['desc'].split(',')[0]
+    FILENAME_TO_CLOTHES[filename].occasion = request.args['desc'].split(',')[1]
     if 'color' in request.args:
         FILENAME_TO_CLOTHES[filename].color = request.args['color']
 
