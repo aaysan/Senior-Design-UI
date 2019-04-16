@@ -16,6 +16,7 @@ import cv2
 import Apparel
 import json
 import random
+import pickle as pkl
 
 from flask_cors import CORS
 app = Flask(__name__, instance_relative_config=False)
@@ -37,26 +38,24 @@ class Clothes:
     def __repr__(self):
         sb = []
         for key in self.__dict__:
-            sb.append("{key}='{value}'".format(key=key, value=self.__dict__[key]))
+            sb.append("{key}='{value}'".format(
+                key=key, value=self.__dict__[key]))
 
         return ', '.join(sb)
 
 
-class Information:
-    name = "Alp Aysan"
-    count = 0
-    filename_to_clothes = {
-        # Dummy inits
-        '1111.jpg': Clothes('1111.jpg', 'Alp Aysan', 1),
-        '2222.jpg': Clothes('2222.jpg', 'Alp Aysan', 2, description='tshirt2'),
-        '3333.jpg': Clothes('3333.jpg', 'Alp Aysan', 3, description='jeans'),
-        '4444.jpg': Clothes('4444.jpg', 'Alp Aysan', 4, description='random'),
-        '5555.jpg': Clothes('5555.jpg', 'Alp Aysan', 5, description='alp'),
+def save_global_state():
+    with open('saved_state.pkl', 'wb') as fp:
+        pkl.dump({
+            "filename_to_clothes": FILENAME_TO_CLOTHES,
+            "closet_position": CLOSET_POSITION,
+        }, fp, protocol=pkl.HIGHEST_PROTOCOL)
 
-    }
 
-    def __init__(self):
-        return
+MODES = {'select', 'remove', 'add-existing'}
+VIEWER_NAME = "Alp Aysan"  # default
+FILENAME_TO_CLOTHES = {}
+CLOSET_POSITION = 0
 
 
 @app.route("/", methods=['GET', 'POST'])
@@ -72,7 +71,7 @@ def face_recog():
 
     if len(res) > 0:
         name = res[0].strip()
-        Information.name = name
+        VIEWER_NAME = name
         if name != 'outsider':
             return render_template('main_page_recognized.html', name=name)
     return render_template('main_page_not_recognized.html')
@@ -80,111 +79,135 @@ def face_recog():
 
 @app.route("/logged_in")
 def show_options():
-    if request.args.get('door_close'):
-        print("please call close door")
+    mode = request.args.get('mode')
+    if request.args.get('mode'):
         # call blttest.close_door()
         time.sleep(3)
+        # update dic
+        if mode == 'select':
+            title = "Select your desired clothes"
+        elif mode == 'remove':
+            title = "Select clothes to permanently remove"
+        elif mode == 'add-existing':
+            title = "Select clothes you would like to add"
+        save_global_state()
+
     weather = gw.get_weather_info()
     temperature = "%0d C" % (weather["Temperature"] - 273)
-    return render_template('post_login_main.html', name=Information.name, temperature=temperature)
+    return render_template('post_login_main.html', name=VIEWER_NAME, temperature=temperature)
 
 
 @app.route("/add_clothes", methods=['GET', 'POST'])
 def add_clothes():
-    if request.method == 'POST':
-        if 'take_pic' in request.form:
-
-            # Take Picture
-
-            split_name = Information.name.split()
-            name = Information.name
-            lastname = ""
-            if len(split_name) > 1:
-                name = split_name[0]
-                last_name = split_name[1]
-
-            cap = cv2.VideoCapture(0)
-            time.sleep(0.5)
-
-            ret, frame = cap.read()
-            cap.release()
-
-            opening_slot = 1  # TODO (logic to find opening space)
-            # TODO (what happens if all spots are filled??)
-            filename = str(random.getrandbits(128)) + '.jpg'
-            Information.filename_to_clothes[filename] = Clothes(
-                filename, Information.name, opening_slot)
-            file_path = Information.filename_to_clothes[filename].static_filename
-            cv2.imwrite(file_path, frame)
-            names, colors = Apparel.finditemandcolor(file_path)
-
-            # Change camelCase to camel case
-            for item in colors:
-                item['name'] = re.sub(
-                    "([a-z])([A-Z])", "\g<1> \g<2>", item['name'])
-
-            return render_template('add_new_radio_buttons.html', names=names, colors=colors, filename=filename)
-
-        if 'add_existing' in request.form:
-            return "This should be the page that display existing stuff"
-
     weather = gw.get_weather_info()
     temperature = "%0d C" % (weather["Temperature"] - 273)
-    return render_template('add_clothes.html', name=Information.name, temperature=temperature)
+    return render_template('add_clothes.html', name=VIEWER_NAME, temperature=temperature)
 
 
-@app.route("/add_new_clothes", methods=['GET'])
+@app.route("/add_new_clothes", methods=['GET', 'POST'])
 def add_new_clothes():
+    # Take Picture
+    cap = cv2.VideoCapture(0)
+    time.sleep(0.5)
+
+    ret, frame = cap.read()
+    cap.release()
+
+    opening_slot = 1  # TODO (logic to find opening space)
+    # TODO (what happens if all spots are filled??)
+    filename = str(random.getrandbits(128)) + '.jpg'
+    FILENAME_TO_CLOTHES[filename] = Clothes(
+        filename, VIEWER_NAME, opening_slot)
+    file_path = FILENAME_TO_CLOTHES[filename].static_filename
+    cv2.imwrite(file_path, frame)
+    names, colors = Apparel.finditemandcolor(file_path)
+
+    # Change camelCase to camel case for colors
+    for item in colors:
+        item['name'] = re.sub(
+            "([a-z])([A-Z])", "\g<1> \g<2>", item['name'])
+
+    return render_template('add_new_radio_buttons.html', names=names, colors=colors, filename=filename)
+
+
+@app.route("/add_new_clothes_response", methods=['GET'])
+def add_new_clothes_response():
     filename = request.args['filename']
-    Information.filename_to_clothes[filename].description = request.args['desc']
-    Information.filename_to_clothes[filename].color = request.args['color']
-    # print(Information.filename_to_clothes[filename])
-    return str(Information.filename_to_clothes[filename])
+    FILENAME_TO_CLOTHES[filename].description = request.args['desc']
+    if 'color' in request.args:
+        FILENAME_TO_CLOTHES[filename].color = request.args['color']
+
+    return render_template('load.html', filename=filename,
+                           title="Finding an opening for {}".format(request.args['desc']), mode="add-existing")
 
 
-@app.route("/remove_clothes")
-def remove_clothes():
+@app.route("/clothes_viewer")
+def clothes_viewer():
+    mode = request.args['mode']
+    assert mode in MODES
     weather = gw.get_weather_info()
     temperature = "%0d C" % (weather["Temperature"] - 273)
+
+    if mode == 'select':
+        title = "Select your desired clothes"
+
+        def valid_clothes(clothes):
+            return clothes.in_closet
+    elif mode == 'remove':
+        title = "Select clothes to permanently remove"
+
+        def valid_clothes(clothes):
+            return clothes.in_closet
+    elif mode == 'add-existing':
+        title = "Select clothes you would like to add"
+
+        def valid_clothes(clothes):
+            return not clothes.in_closet
+
     data = []
-    for filename in os.listdir("./static/{}".format(Information.name.replace(" ", "_"))):
-        clothe = Information.filename_to_clothes[filename]
-        if not clothe.in_closet:
-            continue
-        data.append(clothe)
-    return render_template('remove_clothes.html', name=Information.name, temperature=temperature, filename_tup=data, data_len=len(data))
+    for filename, clothes in FILENAME_TO_CLOTHES.items():
+        if clothes.owner == VIEWER_NAME and valid_clothes(clothes):
+            data.append(clothes)
+
+    return render_template('clothes_viewer.html', name=VIEWER_NAME, temperature=temperature,
+                           filename_tup=data, data_len=len(data), title=title, mode=mode)
 
 
 @app.route("/retrieve_select_loading")
 def retrieve_select_loading():
-    filename = request.args.get('clothe')
-    return render_template('load.html', filename=filename)
+    filename = request.args.get('filename')
+    mode = request.args.get('mode')
+    if mode == 'select' or mode == 'remove':
+        title = "Retrieving selected clothes"
+    elif mode == 'add-existing':
+        title = "Finding an opening"
+    return render_template('load.html', filename=filename, title=title, mode=mode)
 
 
 @app.route("/retrieve_select_done")
 def retrieve_select_done():
-    time.sleep(3)
-    filename = request.args.get('clothe')
-    return "done fetching {}".format(filename)
+    filename = request.args.get('filename')
+    time.sleep(3)  # call blttest.closet_open(xx) here
+    return "done fetching {}".format(filename)  # return response is not used
 
 
 @app.route("/close_door_begin")
 def close_door_begin():
-    return render_template('close_door.html')
-
-
-@app.route("/display_clothes")
-def display_clothes():
-    weather = gw.get_weather_info()
-    temperature = "%0d C" % (weather["Temperature"] - 273)
-    return render_template('select_clothes.html', name=Information.name)
+    mode = request.args.get('mode')
+    if mode == 'select':
+        title = "Please take out clothes from opening"
+    elif mode == 'remove':
+        title = "Please take out clothes from opening, removing clothes from system"
+    elif mode == 'add-existing':
+        title = "Please insert clothes onto the opening"
+    return render_template('close_door.html', title=title, mode=mode, filename=request.args.get('filename'))
 
 
 @app.route("/recommend_clothes")
 def recommend_clothes():
     weather = gw.get_weather_info()
     temperature = "%0d C" % (weather["Temperature"] - 273)
-    return render_template('recommend_clothes.html', name=Information.name, temperature=temperature)
+    return render_template('recommend_clothes.html', name=VIEWER_NAME, temperature=temperature)
 
 
 @app.after_request
@@ -199,4 +222,8 @@ def add_header(response):
 
 
 if __name__ == '__main__':
+    with open("saved_state.pkl", 'rb') as fp:
+        metadata = pkl.load(fp)
+        FILENAME_TO_CLOTHES = metadata['filename_to_clothes']
+        CLOSET_POSITION = metadata['closet_position']
     app.run(debug=True)

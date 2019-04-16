@@ -141,7 +141,8 @@
 </head>
 
 <body>
-  <link  rel = "stylesheet" href = "static/css/style.css">
+  <link rel="stylesheet" href="static/css/style.css">
+  <h2 align="center">{{title}}</h2>
   <div class="slideshow-container">
     <br />
     <!--This is a comment. Comments are not displayed in the browser <marquee><b><i>Welcome To Your Closet</i></b></marquee> -->
@@ -152,7 +153,7 @@
       <div class="numbertext">{{ item.position }} / {{ data_len }}</div>
 
       <div class="buttons">
-        <button onclick="window.location.href='/retrieve_select_loading?clothe={{item.filename}}'">Select</button>
+        <button onclick="window.location.href='/retrieve_select_loading?filename={{item.filename}}&mode={{mode}}'">Select</button>
       </div>
       <img src="{{item.static_filename}}" height="600" style="width:50%">
       <div class="text">{{item.description}}</div>

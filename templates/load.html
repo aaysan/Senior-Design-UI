@@ -42,7 +42,7 @@
 </head>
 
 <body>
-
+	<h2 align="center">{{title}}</h2>
 	<h2 align="center">{{filename}}</h2>
 
 	<div class="loader" style='position:center'>
@@ -58,11 +58,11 @@
 
 	function test1() {
 		var xhr = new XMLHttpRequest();
-		xhr.open("GET", "http://127.0.0.1:5000/retrieve_select_done?clothe={{filename}}", true);
+		xhr.open("GET", "http://127.0.0.1:5000/retrieve_select_done?filename={{filename}}", true);
 		xhr.onload = function (e) {
 			if (xhr.readyState === 4) {
 				if (xhr.status === 200) {
-					document.location.href="http://127.0.0.1:5000/close_door_begin?clothe={{filename}}";
+					document.location.href="http://127.0.0.1:5000/close_door_begin?filename={{filename}}&mode={{mode}}";
 				} else {
 					console.error(xhr.statusText);
 				}

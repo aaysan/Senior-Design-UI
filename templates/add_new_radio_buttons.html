@@ -36,7 +36,7 @@
 	<link rel="stylesheet" type= "text/css" href = "static/css/style.css?q=1280549782">
 		<h2>Radio Buttons</h2>
 		
-		<form id="form1" method='get' action=" {{url_for('add_new_clothes')}}">
+		<form id="form1" method='get' action=" {{url_for('add_new_clothes_response')}}">
 			<input type="hidden" name="filename" value="{{filename}}">
 			<p>Please select the appropriate description</p>
 			{% for item in names %}
