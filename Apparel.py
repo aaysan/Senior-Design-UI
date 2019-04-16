@@ -75,7 +75,7 @@ def get_occasion(name):
     if sportwear is not None:
         return "Sports|Activewear"
 
-    businesspattern = "Blazer|Button-Down|Blouse|Button-Up|Pant Suit|Tie|Vest"
+    businesspattern = "Blazer|Button-Down|Blouse|Button-Up|Pant Suit|Tie|Vest|Polo"
     businesswear = re.search(businesspattern,name)
 
     if businesswear is not None:

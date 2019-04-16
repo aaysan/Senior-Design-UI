@@ -15,7 +15,7 @@ def make_suggestions(weather,occasion,attires):
     rainpattern = r"rain|snow|shower|flurries|storm"
     coldpattern = r"sweat|hoodie|cardigan"
     verycoldpattern = r"coat|jacket|turtleneck"
-    warmpattern = r"short|t-shirt|tshirt"
+    warmpattern = r"short|t-shirt|polo|slipper"
 
     suggestions = set()
 
@@ -24,30 +24,39 @@ def make_suggestions(weather,occasion,attires):
 
     for elem in attires:
 
-        if int(temperature) < 15:
-            cold_match = re.search(coldpattern, elem.description)
-            if cold_match is not None:
-                suggestions.add(elem.static_filename)
 
-        if int(temperature) < 2:
-            very_cold_match = re.search(verycoldpattern, elem.description)
-            # print("its too cold. Would you like a jacket? " );
-            if very_cold_match is not None:
-                suggestions.add(elem.static_filename)
-
-        if int(temperature) > 15:
-            warm_match = re.search(warmpattern, elem.description)
-            if warm_match is not None:
-                suggestions.add(elem.static_filename)
-
-        isRainy = re.search(rainpattern,weather["Description"].lower())
+        isRainy = re.search(rainpattern, weather["Description"].lower())
         if isRainy is not None:
-           suggestions.add("Umbrealla")
+            suggestions.add("Umbrealla")
 
         if elem.occasion == occasion:
-            suggestions.add(elem.static_filename)
+            # suggestions.add(elem)
+            if int(temperature) < 15:
+                cold_match = re.search(coldpattern, elem.description.lower())
+                if cold_match is not None:
+                    suggestions.add(elem)
 
-    pp.pprint(suggestions)
+            if int(temperature) < 2:
+
+                very_cold_match = re.search(verycoldpattern, elem.description.lower())
+                # print("its too cold. Would you like a jacket? " );
+                if very_cold_match is not None:
+                    suggestions.add(elem)
+
+            if int(temperature) > 15:
+                # print(elem)
+                warm_match = re.search(warmpattern, elem.description.lower())
+                print(warm_match)
+                print("===============")
+                if warm_match is not None:
+
+                    suggestions.add(elem)
+
+
+
+
+
+    # pp.pprint(suggestions)
     # final_url_list = set()
     #
     # for elem in possible_attires:

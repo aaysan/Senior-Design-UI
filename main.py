@@ -240,7 +240,7 @@ def close_door_begin():
 def recommend_clothes():
     weather = gw.get_weather_info()
     temperature = "%0d C" % (weather["Temperature"] - 273)
-
+    print(temperature)
     if request.method == 'POST':
         occasion = request.form['options']
 
@@ -255,7 +255,10 @@ def recommend_clothes():
         result = ms.make_suggestions(weather,occasion,possible_attires)
 
 
-        return occasion
+
+
+
+        return str(result)
 
     return render_template('recommend_clothes.html', name=VIEWER_NAME, temperature=temperature)
 
@@ -276,4 +279,16 @@ if __name__ == '__main__':
         metadata = pkl.load(fp)
         FILENAME_TO_CLOTHES = metadata['filename_to_clothes']
         CLOSET_POSITION = metadata['closet_position']
+        # for key, item in FILENAME_TO_CLOTHES.items():
+        #     print(item)
+        # del FILENAME_TO_CLOTHES['2222.jpg']
+        # del FILENAME_TO_CLOTHES['5555.jpg']
+        # del FILENAME_TO_CLOTHES['217017092728452067427996135764960391696.jpg']
+        # del FILENAME_TO_CLOTHES['2678892138.jpg']
+        # del FILENAME_TO_CLOTHES['1111.jpg']
+        # del FILENAME_TO_CLOTHES['4444.jpg']
+        # del FILENAME_TO_CLOTHES['3333.jpg']
+        # del FILENAME_TO_CLOTHES['4037302841.jpg']
+
+    # _save_global_state()
     app.run(debug=True)
