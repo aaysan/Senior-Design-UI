@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<style>
+		.loader {
+			position: fixed;
+			top: 40%;
+			left: 45%;
+			border: 16px solid #f3f3f3;
+			border-radius: 50%;
+			border-top: 16px solid #3498db;
+			width: 120px;
+			height: 120px;
+			-webkit-animation: spin 2s linear infinite;
+			/* Safari */
+			animation: spin 2s linear infinite;
+		}
+
+		/* Safari */
+		@-webkit-keyframes spin {
+			0% {
+				-webkit-transform: rotate(0deg);
+			}
+
+			100% {
+				-webkit-transform: rotate(360deg);
+			}
+		}
+
+		@keyframes spin {
+			0% {
+				transform: rotate(0deg);
+			}
+
+			100% {
+				transform: rotate(360deg);
+			}
+		}
+	</style>
+</head>
+
+<body>
+
+	<h2 align="center">{{filename}}</h2>
+
+	<div class="loader" style='position:center'>
+
+	</div>
+
+</body>
+
+</html>
+
+<script>
+	test1();
+
+	function test1() {
+		var xhr = new XMLHttpRequest();
+		xhr.open("GET", "http://127.0.0.1:5000/retrieve_select_done?clothe={{filename}}", true);
+		xhr.onload = function (e) {
+			if (xhr.readyState === 4) {
+				if (xhr.status === 200) {
+					document.location.href="http://127.0.0.1:5000/close_door_begin?clothe={{filename}}";
+				} else {
+					console.error(xhr.statusText);
+				}
+			}
+		};
+		xhr.onerror = function (e) {
+			console.error(xhr.statusText);
+		};
+		xhr.send(null);
+	}
+
+</script>
