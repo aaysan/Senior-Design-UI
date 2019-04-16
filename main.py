@@ -4,7 +4,6 @@ import os
 sys.path.insert(0, './../Senior_Design/')
 # print(sys.path)
 
-
 from flask import render_template
 from flask import request
 from flask import Flask
@@ -17,10 +16,16 @@ import Apparel
 import json
 import random
 import pickle as pkl
+import pprint
 
 from flask_cors import CORS
 app = Flask(__name__, instance_relative_config=False)
 CORS(app)
+TOTAL_INDICES = 10
+MODES = {'select', 'remove', 'add-existing'}
+VIEWER_NAME = "Alp Aysan"  # default
+FILENAME_TO_CLOTHES = {}
+CLOSET_POSITION = 0
 
 
 class Clothes:
@@ -44,18 +49,31 @@ class Clothes:
         return ', '.join(sb)
 
 
-def save_global_state():
+def _save_global_state():
     with open('saved_state.pkl', 'wb') as fp:
         pkl.dump({
             "filename_to_clothes": FILENAME_TO_CLOTHES,
             "closet_position": CLOSET_POSITION,
         }, fp, protocol=pkl.HIGHEST_PROTOCOL)
+        pprint.pprint(FILENAME_TO_CLOTHES)
+        print("CLOSET_POSITION\t{}".format(CLOSET_POSITION))
 
 
-MODES = {'select', 'remove', 'add-existing'}
-VIEWER_NAME = "Alp Aysan"  # default
-FILENAME_TO_CLOTHES = {}
-CLOSET_POSITION = 0
+def _calc_displacement(target_position):
+    if target_position >= CLOSET_POSITION:
+        return target_position - CLOSET_POSITION
+    return target_position + TOTAL_INDICES - CLOSET_POSITION
+
+
+def _find_opening_slot():
+    indices_available = {i for i in range(TOTAL_INDICES)}
+    for filename, item in FILENAME_TO_CLOTHES.items():
+        if item.position in indices_available:
+            indices_available.remove(item.position)
+    for i in range(TOTAL_INDICES):
+        if i in indices_available:
+            return i
+    raise Exception("CLOSET IS FULL--TODO HANDLE THIS CASE")
 
 
 @app.route("/", methods=['GET', 'POST'])
@@ -83,23 +101,24 @@ def show_options():
     if request.args.get('mode'):
         # call blttest.close_door()
         time.sleep(3)
-        # update dic
+        filename = request.args.get('filename')
         if mode == 'select':
-            title = "Select your desired clothes"
+            FILENAME_TO_CLOTHES[filename].in_closet = False
         elif mode == 'remove':
-            title = "Select clothes to permanently remove"
+            os.remove(FILENAME_TO_CLOTHES[filename].static_filename)
+            FILENAME_TO_CLOTHES.pop(filename)
         elif mode == 'add-existing':
-            title = "Select clothes you would like to add"
-        save_global_state()
+            FILENAME_TO_CLOTHES[filename].in_closet = True
+        _save_global_state()
 
-    weather = gw.get_weather_info()
+    weather = {'Temperature': 300}  # gw.get_weather_info()
     temperature = "%0d C" % (weather["Temperature"] - 273)
     return render_template('post_login_main.html', name=VIEWER_NAME, temperature=temperature)
 
 
 @app.route("/add_clothes", methods=['GET', 'POST'])
 def add_clothes():
-    weather = gw.get_weather_info()
+    weather = {'Temperature': 300}  # gw.get_weather_info()
     temperature = "%0d C" % (weather["Temperature"] - 273)
     return render_template('add_clothes.html', name=VIEWER_NAME, temperature=temperature)
 
@@ -113,11 +132,11 @@ def add_new_clothes():
     ret, frame = cap.read()
     cap.release()
 
-    opening_slot = 1  # TODO (logic to find opening space)
+    opening_slot = _find_opening_slot()
     # TODO (what happens if all spots are filled??)
-    filename = str(random.getrandbits(128)) + '.jpg'
+    filename = str(random.getrandbits(32)) + '.jpg'
     FILENAME_TO_CLOTHES[filename] = Clothes(
-        filename, VIEWER_NAME, opening_slot)
+        filename, VIEWER_NAME, opening_slot, in_closet=False)
     file_path = FILENAME_TO_CLOTHES[filename].static_filename
     cv2.imwrite(file_path, frame)
     names, colors = Apparel.finditemandcolor(file_path)
@@ -145,7 +164,7 @@ def add_new_clothes_response():
 def clothes_viewer():
     mode = request.args['mode']
     assert mode in MODES
-    weather = gw.get_weather_info()
+    weather = {'Temperature': 300}  # gw.get_weather_info()
     temperature = "%0d C" % (weather["Temperature"] - 273)
 
     if mode == 'select':
@@ -186,8 +205,13 @@ def retrieve_select_loading():
 
 @app.route("/retrieve_select_done")
 def retrieve_select_done():
+    global CLOSET_POSITION
     filename = request.args.get('filename')
-    time.sleep(3)  # call blttest.closet_open(xx) here
+    displacement = _calc_displacement(FILENAME_TO_CLOTHES[filename].position)
+    print("Calling: blttest.closet_open({})\ttarget={}\tcurr_pos={}".format(
+        displacement, FILENAME_TO_CLOTHES[filename].position, CLOSET_POSITION))
+    time.sleep(3)  # call blttest.closet_open(displacement) here
+    CLOSET_POSITION = FILENAME_TO_CLOTHES[filename].position
     return "done fetching {}".format(filename)  # return response is not used
 
 
@@ -205,7 +229,7 @@ def close_door_begin():
 
 @app.route("/recommend_clothes")
 def recommend_clothes():
-    weather = gw.get_weather_info()
+    weather = {'Temperature': 300}  # gw.get_weather_info()
     temperature = "%0d C" % (weather["Temperature"] - 273)
     return render_template('recommend_clothes.html', name=VIEWER_NAME, temperature=temperature)
 
