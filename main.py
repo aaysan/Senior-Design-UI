@@ -86,6 +86,9 @@ def add_clothes():
 
             return json.dumps([temp1,temp2])
 
+        if 'add_existing' in request.form:
+            return "This should be the page that display existing stuff"
+
     weather = gw.get_weather_info()
     temperature = "%0d C" % (weather["Temperature"] - 273)
     return render_template('add_clothes.html', name=Information.name,temperature=temperature)
