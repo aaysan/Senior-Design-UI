@@ -1,0 +1,60 @@
+<style type="text/css">
+	body {
+		margin: 0;
+	}
+
+    .backimage {
+		background-image: url("../static/media/main_background.png");
+		background-color: #cccccc;
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: cover;
+		position: relative;
+		height: 800px;
+	}
+
+	.maintext {
+  		text-align: left;
+  		position: absolute;
+  		top: 10%;
+  		left: 20%;
+  		transform: translate(-50%, -50%);
+  		color: navy;
+	}
+	.weather {
+		text-align: right;
+		position: absolute;
+		top: 10%;
+		right: 3%;
+		transform: translate(-50%, -50%);
+		color: navy;
+	}
+
+</style>
+</head>
+<body>
+	<link rel="stylesheet" type= "text/css" href = "static/css/style.css?q=1280549782">
+		<h2>Radio Buttons</h2>
+		
+		<form id="form1" method='get' action=" {{url_for('add_new_clothes')}}">
+			<input type="hidden" name="filename" value="{{filename}}">
+			<p>Please select the appropriate description</p>
+			{% for item in names %}
+				<input id="{{item['value']}}" type="radio" value="{{item['name']}}" name="desc">
+				<label for="{{item['value']}}">{{item['name']}}</label>
+				<br>
+			{% endfor %}
+			{% if colors|length %}
+				<p>Please select the color of clothes</p>
+			{% endif %}
+			{% for item in colors %}
+				<!-- TODO: add color box -->
+				<input id="{{item['value']}}" type="radio" value="{{item['name']}}" name="color">
+				<label for="{{item['value']}}">{{item['name']}}</label>
+				<br>
+			{% endfor %}
+		</form>
+		<br>
+		<button type="submit" form="form1" value="Submit">Submit</button>
+		
+		</body>

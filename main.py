@@ -15,6 +15,7 @@ import time
 import cv2
 import Apparel
 import json
+import random
 
 from flask_cors import CORS
 app = Flask(__name__,instance_relative_config=False)
@@ -79,8 +80,6 @@ def show_options():
 
 @app.route("/add_clothes", methods=['GET', 'POST'])
 def add_clothes():
-
-
     if request.method == 'POST':
         if 'take_pic' in request.form:
 
@@ -93,20 +92,28 @@ def add_clothes():
                 name = split_name[0]
                 last_name = split_name[1]
 
-            # cap = cv2.VideoCapture(0)
-            # time.sleep(0.5)
+            cap = cv2.VideoCapture(0)
+            time.sleep(0.5)
 
-            # ret, frame = cap.read()
-            # file_path = name + "_" + last_name + "/" + name + "_" + last_name + str(Information.count) + ".png"
-            # cv2.imwrite(file_path, frame)
-            file_path = "./static/Alp_Aysan/1111.jpg"
+            ret, frame = cap.read()
+            cap.release()
+            
 
-            temp1, temp2 = Apparel.finditemandcolor(file_path)
+            opening_slot = 1 # TODO (logic to find opening space)
+            # TODO (what happens if all spots are filled??)
+            filename = str(random.getrandbits(128)) + '.jpg'
+            Information.filename_to_clothes[filename] = Clothes(filename, Information.name, opening_slot)
+            file_path = Information.filename_to_clothes[filename].static_filename
+            print(file_path)
+            cv2.imwrite(file_path, frame)
+            names, colors = Apparel.finditemandcolor(file_path)
+            
+            # Change camelCase to camel case
+            print(colors)
+            for item in colors:
+                item['name'] = re.sub("([a-z])([A-Z])","\g<1> \g<2>", item['name'])
 
-            # cap.release
-            # print("released")
-
-            return json.dumps([temp1,temp2])
+            return render_template('add_new_radio_buttons.html', names=names, colors=colors, filename=filename)
 
         if 'add_existing' in request.form:
             return "This should be the page that display existing stuff"
@@ -114,6 +121,10 @@ def add_clothes():
     weather = gw.get_weather_info()
     temperature = "%0d C" % (weather["Temperature"] - 273)
     return render_template('add_clothes.html', name=Information.name,temperature=temperature)
+
+@app.route("/add_new_clothes", methods=['GET'])
+def add_new_clothes():
+    return "{},{}".format(request.args['desc'], request.args['color'])
 
 @app.route("/remove_clothes")
 def remove_clothes():
