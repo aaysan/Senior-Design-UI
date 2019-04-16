@@ -64,11 +64,19 @@ def add_clothes():
         if 'take_pic' in request.form:
 
             #Take Picture
+
+            split_name = Information.name.split()
+            name = Information.name
+            lastname = ""
+            if len(split_name) > 1:
+                name = split_name[0]
+                last_name = split_name[1]
+
             cap = cv2.VideoCapture(0)
             time.sleep(0.5)
 
             ret, frame = cap.read()
-            file_path = Information.name + str(Information.count) + ".png"
+            file_path = name + "_" + last_name + "/" + name + "_" + last_name + str(Information.count) + ".png"
             cv2.imwrite(file_path, frame)
 
             temp1, temp2 = Apparel.finditemandcolor(file_path)
