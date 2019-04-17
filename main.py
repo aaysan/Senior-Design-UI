@@ -74,7 +74,8 @@ def _find_opening_slot():
     for i in range(TOTAL_INDICES):
         if i in indices_available:
             return i
-    raise Exception("CLOSET IS FULL--TODO HANDLE THIS CASE")
+    return
+    # raise Exception("CLOSET IS FULL--TODO HANDLE THIS CASE")
 
 
 @app.route("/", methods=['GET', 'POST'])
@@ -253,7 +254,8 @@ def recommend_clothes():
         return render_template('clothes_viewer.html', name=VIEWER_NAME, temperature=temperature,
                                filename_tup=result, data_len=len(result), title='All recommendations for {}'.format(occasion), mode='select')
 
-    return render_template('recommend_clothes.html', name=VIEWER_NAME, temperature=temperature)
+    title = "Please select an occasion"
+    return render_template('recommend_clothes.html', name=VIEWER_NAME, temperature=temperature, details=weather['Description'],title=title)
 
 
 @app.after_request

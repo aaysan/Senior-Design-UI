@@ -51,14 +51,14 @@ sub {
 .btn {
     border: none;
     background-color: inherit;
-    padding: 14px 28px;
-    font-size: 32px;
+    padding: 1% 2%;
+    font-size: x-large;
     cursor: pointer;
     display: inline-block;
 }
 
 /* On mouse-over */
-.btn:hover {background: #eee;}
+.btn:hover {background: #993366;}
 
 .Picture {color: black;}
 .Confirm {color: darkgreen;}
@@ -66,14 +66,14 @@ sub {
 
 .func {
 	border: none;
-	margin-top: 100px;
-	margin-left: 100px;
-	margin-right: 100px;
+	margin-top: 6%;
+	margin-left: 6%;
+	margin-right: 6%;
     background-color: white;
     /*padding: 14px 120px; */
-    height: 50px;
-    width: 360px;
-    font-size: 32px;
+    height: 6%;
+    width: 30%;
+    font-size: medium;
     cursor: pointer;
     display: inline-block;
 		color: black
@@ -82,6 +82,8 @@ sub {
 .Select {color: black}
 
 .func:hover {background: #993366; text-decoration: underline;}
+
+
 
 .dropdown {
 	position: relative;

@@ -35,7 +35,7 @@
 
 </style>
 </head>
-<body>
+<body scroll="no" style="overflow: hidden">
 	<link  rel = "stylesheet" href = "{{ url_for('static', filename='css/style.css') }}">
 	<div class="backimage">
 		<div class="maintext">
@@ -91,7 +91,6 @@
 
 		<script>
 			const data = fetch(
-			"https://webhooks.mongodb-stitch.com/api/client/v2.0/app/our_last_hackson-sfrvf/service/weather/incoming_webhook/get_weather"
 			).then(response => response.json())
 			.then(json => {
 				const idelement2 = document.getElementById("tempid2");

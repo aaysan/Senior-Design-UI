@@ -30,31 +30,79 @@
 		color: navy;
 	}
 
+	.titletext {
+         text-align: left;
+         position: absolute;
+         top: 15%;
+         left: 50%;
+         transform: translate(-50%, -50%);
+         color: navy;
+         }
+
+     .radiobutton {
+	border: none;
+	margin-top: 1%;
+	margin-left: 38%;
+	margin-right: 0%;
+	margin-bottom: 3%;
+    background-color: white;
+
+    height: 2%;
+    width: 2%;
+    font-size: large;
+    cursor: pointer;
+    display: inline-block;
+	color: black
+	}
+
+	.func_recommend {
+	border: none;
+	margin-top: 1%;
+	margin-left: 6%;
+	margin-right: 6%;
+    background-color: white;
+    height: 3%;
+    width: 20%;
+    font-size: medium;
+    cursor: pointer;
+    display: inline-block;
+		color: black
+		}
+	.func_recommend:hover {background: #993366; text-decoration: underline;}
+
+}
+
 </style>
+<head>
+	<meta name="viewport" content="width=device-width, length=device-length, initial-scale=1.0">
 </head>
-<body>
+<body scroll="no" style="overflow: hidden">
 	<link  rel = "stylesheet" href = "static/css/style.css">
 	<div class="backimage">
 		<div class="maintext">
-			<h1 style="font-size: 50px">Hello Sophia!</h1>
+			<h1 style="font-size: x-large"> {{ name }} </h1>
 		</div>
 		<div class="weather">
-			<h1 style="font-size: 30px">Weather</h1>
+			<h1 style="font-size: large">Temperature: {{ temperature }}</h1>
+			<h1 style="font-size: large">Details: {{ details }}</h1>
 		</div>
 
 		<center>
-			<h5>Suggest Clothes</h5>
-		</center>
+			<h2  class ="titletext" style="font-size: large" align="center">{{title}}</h2>
+
 		<p>
-			<h1 style="color: navy; padding-left: 10%">Occasions?</h1>
+			<br><br><br><br><br><br><br><br>
 			<form method="post">
-				<input type="radio" name="options" id="option1" value="Sports|Activewear" required><label for="option1" required>Sports|Activewear</label></input><br>
-				<input type="radio" name="options" id="option2" value="Business|Business Casual"><label for="option2"> Business|Business Casual</label> </input><br>
-				<input type="radio" name="options" id="option3" value="Casual|Daily"><label for="option3"> Casual|Daily</label>  </input><br>
-				<input type="submit" name = "submit_occasion" value="Submit">
+				<div align="left">
+				<input class = "radiobutton" type="radio" name="options" id="option1" value="Sports|Activewear" required><label for="option1" required>Sports|Activewear</label></input><br>
+				<input class = "radiobutton" type="radio" name="options" id="option2" value="Business|Business Casual"><label for="option2"> Business|Business Casual</label> </input><br>
+				<input class = "radiobutton" type="radio" name="options" id="option3" value="Casual|Daily"><label for="option3"> Casual|Daily</label>  </input><br>
+				</div>
+			<input class = "func_recommend" type="submit" name = "submit_occasion" value="Submit">
 			</form>
 		</p>
 		<button onclick="window.location.href='/logged_in'"class="func Home">Home</button>
         <button onclick="window.location.href='/'"class="func Logout">Logout</button>
+			</center>
 	</div>
 </body>

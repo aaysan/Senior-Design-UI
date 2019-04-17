@@ -1,60 +1,97 @@
 <style type="text/css">
-	body {
-		margin: 0;
-	}
-
-    .backimage {
-		background-image: url("../static/media/main_background.png");
-		background-color: #cccccc;
-		background-position: center;
-		background-repeat: no-repeat;
-		background-size: cover;
-		position: relative;
-		height: 800px;
-	}
-
-	.maintext {
-  		text-align: left;
-  		position: absolute;
-  		top: 10%;
-  		left: 20%;
-  		transform: translate(-50%, -50%);
-  		color: navy;
-	}
-	.weather {
-		text-align: right;
-		position: absolute;
-		top: 10%;
-		right: 3%;
-		transform: translate(-50%, -50%);
-		color: navy;
-	}
-
+   body {
+   margin: 0;
+   }
+   .backimage {
+   background-image: url("../static/media/main_background.png");
+   background-color: #cccccc;
+   background-position: center;
+   background-repeat: no-repeat;
+   background-size: cover;
+   position: relative;
+   height: 800px;
+   }
+   .maintext {
+   text-align: left;
+   position: absolute;
+   top: 10%;
+   left: 20%;
+   transform: translate(-50%, -50%);
+   color: navy;
+   }
+   .weather {
+   text-align: right;
+   position: absolute;
+   top: 10%;
+   right: 3%;
+   transform: translate(-50%, -50%);
+   color: navy;
+   }
+   .func_submit {
+   border: none;
+   background-color: white;
+   height: 6%;
+   width: 30%;
+   font-size: medium;
+   cursor: pointer;
+   display: inline-block;
+   color: black
+   }
+   .radiobutton {
+   border: none;
+   margin-top: 1%;
+   margin-left: 1%;
+   margin-right: 2%;
+   margin-bottom: 3%;
+   background-color: white;
+   height: 2%;
+   width: 2%;
+   font-size: x-large;
+   cursor: pointer;
+   display: inline-block;
+   color: black
+   }
 </style>
+<head>
+   <meta name="viewport" content="width=device-width, length=device-length, initial-scale=1.0">
 </head>
-<body>
-	<link rel="stylesheet" type= "text/css" href = "static/css/style.css?q=1280549782">
-		<h2>Radio Buttons</h2>
-		
-		<form id="form1" method='get' action=" {{url_for('add_new_clothes_response')}}">
-			<input type="hidden" name="filename" value="{{filename}}">
-			<p>Please select the appropriate description</p>
-			{% for item in names %}
-				<input id="{{item['value']}}" type="radio" value="{{item['name']}},{{item['Occasion']}}" name="desc" required>
-				<label for="{{item['value']}}">{{item['name']}}</label>
-				<br>
-			{% endfor %}
-			{% if colors|length %}
-				<p>Please select the color of clothes</p>
-			{% endif %}
-			{% for item in colors %}
-				<!-- TODO: add color box -->
-				<input id="{{item['value']}}" type="radio" value="{{item['name']}}" name="color">
-				<label for="{{item['value']}}">{{item['name']}}</label>
-				<br>
-			{% endfor %}
-		</form>
-		<br>
-		<button type="submit" form="form1" value="Submit">Submit</button>
-		
-		</body>
+<body scroll="no" style="overflow: hidden">
+   <link rel="stylesheet" type= "text/css" href = "static/css/style.css?q=1280549782">
+   <div class="backimage">
+   <div class="maintext">
+      <h1 style="font-size: x-large"> {{ name }} </h1>
+   </div>
+
+   <h2 style="widht:100%;">Please tell me what you had in mind</h2>
+   <form id="form1" method='get' action=" {{url_for('add_new_clothes_response')}}">
+      <div style="float:left; margin-left:2%" >
+         <input type="hidden" name="filename" value="{{filename}}">
+         <p>Please select the appropriate description</p>
+         {% for item in names %}
+         <input class="radiobutton" id="{{item['value']}}" type="radio" value="{{item['name']}},{{item['Occasion']}}" name="desc" required>
+         <label for="{{item['value']}}">{{item['name']}}</label>
+         <br>
+         {% endfor %}
+      </div>
+      <div style="margin-left:25%; margin-top:1%; float:left">
+         <input type="hidden" name="nothing" value="nothing}">
+         {% if colors|length %}
+         <p>Please select the color of clothes</p>
+         {% endif %}
+         {% for item in colors %}
+         <!-- TODO: add color box -->
+         <input class="radiobutton" id="{{item['value']}}" type="radio" value="{{item['name']}}" name="color">
+         <label for="{{item['value']}}">{{item['name']}}</label>
+         <br>
+         {% endfor %}
+      </div>
+   </form>
+	   <center>
+		   <div align="center">
+			   <br><br><br><br><br><br><br><br><br><br><br><br>
+      <button class = "func" type="submit" form="form1" value="Submit">Submit</button>
+  		 </div>
+	   </center>
+
+   <div/>
+</body>

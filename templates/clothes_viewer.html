@@ -1,207 +1,296 @@
 <!DOCTYPE html>
 <html>
+   <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <style>
+         < !-- Css File YOu can also Create separate file for css and then link into HTML file -->* {
+         box-sizing: border-box
+         }
+         .backimage {
+         background-image: url("../static/media/main_background.png");
+         background-color: #cccccc;
+         background-position: center;
+         background-repeat: no-repeat;
+         background-size: cover;
+         position: relative;
+         height: 800px;
 
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    < !-- Css File YOu can also Create separate file for css and then link into HTML file -->* {
-      box-sizing: border-box
-    }
+         }
 
-    body {
-      font-family: Verdana, sans-serif;
-      margin: 0
-    }
+         .maintext {
+         text-align: left;
+         position: absolute;
+         top: 5%;
+         left: 20%;
+         transform: translate(-50%, -50%);
+         color: navy;
+         }
 
-    .mySlides {
-      display: none
-    }
+         .titletext {
+         text-align: left;
+         position: absolute;
+         top: 7%;
+         left: 50%;
+         transform: translate(-50%, -50%);
+         color: navy;
+         }
 
-    /* Slideshow container */
-    .slideshow-container {
-      max-width: 1000px;
-      position: relative;
-      left: 20%;
-      margin: auto;
-    }
+        .func_recommend {
+        border: none;
+        margin-top: 6%%;
+        margin-left: 6%;
+        margin-right: 6%;
+        background-color: white;
+        height: 100%;
+        width: 20%;
+        font-size: medium;
+        cursor: pointer;
+        display: inline-block;
+		color: black
 
-    /* Next & previous buttons */
-    .prev,
-    .next {
-      cursor: pointer;
-      position: absolute;
-      top: 50%;
-      width: auto;
-      padding: 16px;
-      margin-top: -22px;
-      color: grey;
-      font-weight: bold;
-      font-size: 18px;
-      transition: 0.6s ease;
-      border-radius: 0 3px 3px 0;
-    }
+		}
+	    .func_recommend:hover {background: #993366; text-decoration: underline;}
 
-    /* Position the "next button" to the right */
-    .next {
-      right: 500px;
-      border-radius: 3px 0 0 3px;
-    }
+         .weather {
+         text-align: right;
+         position: absolute;
+         top: 5%;
+         right: 0;
+         transform: translate(-50%, -50%);
+         color: navy;
+         }
 
-    /* On hover, add a black background color with a little bit see-through */
-    .prev:hover,
-    .next:hover {
-      background-color: rgba(0, 0, 0, 0.8);
-    }
+         h1 {
+         margin: 0;
+         padding: 0;
+         }
 
-    /* Caption text */
-    .text {
-      color: black;
-      font-size: 15px;
-      padding: 8px 12px;
-      position: absolute;
-      bottom: 8px;
-      width: 100%;
-      text-align: relative;
-    }
+         body {
+         font-family: Verdana, sans-serif;
+         margin: 0
+         }
+         .mySlides {
+         display: none
+         }
 
-    /* Number text (1/3 etc) */
-    .numbertext {
-      color: gray;
-      font-size: 12px;
-      padding: 8px 12px;
-      position: absolute;
-      top: 0;
-    }
+         /* Slideshow container */
+         .slideshow-container {
+         max-width: 200%;
+         position: relative;
+         left: 20%;
+         margin: auto;
 
-    /* The dots/bullets/indicators */
-    .dot {
-      cursor: pointer;
-      height: 13px;
-      width: 13px;
-      margin: 0 2px;
-      background-color: #bbb;
-      border-radius: 50%;
-      display: inline-block;
-      transition: background-color 0.6s ease;
-    }
+         }
 
-    .active,
-    .dot:hover {
-      background-color: #717171;
-    }
+         /* Next & previous buttons */
+         .prev,
+         .next {
+         cursor: pointer;
+         position: absolute;
+         top: 270%;
+         width: auto;
+         padding: 2%;
+         margin-top: 3%;
+         color: grey;
+         font-weight: bold;
+         font-size: large;
+         transition: 0.6s ease;
+         border-radius: 0 1% 1% 0;
 
-    .buttons {
-      color: black;
-      font-size: 15px;
-      position: absolute;
-      top: 8px;
-      width: 100%;
-      text-align: relative;
-    }
+         }
+         /* Position the "next button" to the right */
+         .next {
+         right: 40%;
+         border-radius: 1% 0 0 1%;
+         }
+         <!--.prev {-->
+         <!--left: 40%;-->
+         <!--border-radius: 1% 0 0 1%;-->
+         <!--}-->
+         /* On hover, add a black background color with a little bit see-through */
+         .prev:hover,
+         .next:hover {
+         background-color: rgba(0, 0, 0, 0.8);
+         }
+
+         /* Caption text */
+         .text {
+         color: orange;
+         font-size: small;
+         padding: 1% 1%;
+         position: absolute;
+         bottom: 85%;
+         width: 100%;
+         text-align: relative;
+         }
+         /* Number text (1/3 etc) */
+         .numbertext {
+         color: gray;
+         font-size: 1%;
+         padding: 1% 1%;
+         position: absolute;
+         top: 50%;
+         }
+         /* The dots/bullets/indicators */
+         .dot {
+         cursor: pointer;
+         height: 2%;
+         width: 3%;
+         margin: 0 1%;
+         background-color: #bbb;
+         border-radius: 50%;
+         display: inline-block;
+         transition: background-color 0.6s ease;
+         }
+         .active,
+         .dot:hover {
+         background-color: #717171;
+         }
+         .buttons {
+         color: black;
+         font-size: medium;
+         position: absolute;
+         top: 45%;
+         height: 2.9%;
+         width: 100%;
+         text-align: relative;
+         }
 
 
-    /* Fading animation */
-    .fade {
-      -webkit-animation-name: fade;
-      -webkit-animation-duration: 1.5s;
-      animation-name: fade;
-      animation-duration: 1.5s;
-    }
+         /* Fading animation */
+         .fade {
+         -webkit-animation-name: fade;
+         -webkit-animation-duration: 0s;
+         animation-name: fade;
+         animation-duration: 0s;
+         }
+         @-webkit-keyframes fade {
+         from {
+         opacity: .4
+         }
+         to {
+         opacity: 1
+         }
+         }
+         @keyframes fade {
+         from {
+         opacity: .4
+         }
+         to {
+         opacity: 1
+         }
+         }
+         /* On smaller screens, decrease text size */
+         @media only screen and (max-width: 300px) {
+         .prev,
+         .next,
+         .text {
+         font-size: 2%
+         }
+         }
+      </style>
 
-    @-webkit-keyframes fade {
-      from {
-        opacity: .4
-      }
 
-      to {
-        opacity: 1
-      }
-    }
 
-    @keyframes fade {
-      from {
-        opacity: .4
-      }
 
-      to {
-        opacity: 1
-      }
-    }
 
-    /* On smaller screens, decrease text size */
-    @media only screen and (max-width: 300px) {
-
-      .prev,
-      .next,
-      .text {
-        font-size: 11px
-      }
-    }
-  </style>
+   <head>
+	<meta name="viewport" content="width=device-width, length=device-length, initial-scale=1.0">
 </head>
+   <body scroll="no" style="overflow: hidden" >
+      <link rel="stylesheet" href="static/css/style.css">
 
-<body>
-  <link rel="stylesheet" href="static/css/style.css">
-  <h2 align="center">{{title}}</h2>
-  <div class="slideshow-container">
-    <br />
-    <!--This is a comment. Comments are not displayed in the browser <marquee><b><i>Welcome To Your Closet</i></b></marquee> -->
-    <br /><br /><br /><br />
+      <div class="backimage">
 
-    {% for item in filename_tup %}
-    <div class="mySlides fade">
-      <div class="numbertext">{{ item.position }} / {{ data_len }}</div>
+         <div class="maintext">
+            <h1 style="font-size: x-large">{{ name }}</h1>
+         </div>
+         <div class="weather">
+            <h1 style="font-size: x-large">Temperature: {{ temperature }}</h1>
+         </div>
 
-      <div class="buttons">
-        <button onclick="window.location.href='/retrieve_select_loading?filename={{item.filename}}&mode={{mode}}'">Select</button>
+
+         <h2  class ="titletext" style="font-size: large" align="center">{{title}}</h2>
+         <div class="slideshow-container">
+            <br />
+            <br /><br /><br /><br />
+
+            <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+            <a class="next" onclick="plusSlides(1)">&#10095;</a>
+         </div>
+         <div style="text-align:center">
+            {% for item in filename_tup %}
+            <span class="dot" onclick="currentSlide({{ item.position }})"></span>
+            {% endfor %}
+         </div>
+
+        <center>
+          {% for item in filename_tup %}
+            <div class="mySlides fade">
+               <div class="numbertext">{{ item.position }} / {{ data_len }}</div>
+
+
+               <img src="{{item.static_filename}}" height="100%" style="padding:1% 0 0 0 ;width:50%;">
+               <div class="text">{{item.description}},{{item.occasion}}</div>
+                <div class="buttons">
+                  <!--<br><br>-->
+                <!--<br><br><br><br><br><br><br><br><br><br><br><br><br><br>-->
+                <!--<br><br><br><br>-->
+
+
+
+                  <button class="func_recommend SelectClass"  onclick="window.location.href='/retrieve_select_loading?filename={{item.filename}}&mode={{mode}}'">Select</button>
+               </div>
+
+                <div>
+                    <button onclick="window.location.href='/logged_in'"class="func Home">Home</button>
+                    <button onclick="window.location.href='/'"class="func Logout">Logout</button>
+                </div>
+
+            </div>
+            {% endfor %}
+
+
+      </center>
+
       </div>
-      <img src="{{item.static_filename}}" height="600" style="width:50%">
-      <div class="text">{{item.description}},{{item.occasion}}</div>
-    </div>
-    {% endfor %}
 
-    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-    <a class="next" onclick="plusSlides(1)">&#10095;</a>
 
-  </div>
-  <br>
 
-  <div style="text-align:center">
-    {% for item in filename_tup %}
-    <span class="dot" onclick="currentSlide({{ item.position }})"></span>
-    {% endfor %}
-  </div>
 
-  <script>				/* Javascript Code You can Create separate file for Javascript */
-    var slideIndex = 1;
-    showSlides(slideIndex);
 
-    function plusSlides(n) {
-      showSlides(slideIndex += n);
-    }
 
-    function currentSlide(n) {
-      showSlides(slideIndex = n);
-    }
 
-    function showSlides(n) {
-      var i;
-      var slides = document.getElementsByClassName("mySlides");
-      var dots = document.getElementsByClassName("dot");
-      if (n > slides.length) { slideIndex = 1 }
-      if (n < 1) { slideIndex = slides.length }
-      for (i = 0; i < slides.length; i++) {
-        slides[i].style.display = "none";
-      }
-      for (i = 0; i < dots.length; i++) {
-        dots[i].className = dots[i].className.replace(" active", "");
-      }
-      slides[slideIndex - 1].style.display = "block";
-      dots[slideIndex - 1].className += " active";
-    }
 
-  </script>
 
-</body>
+      <script>				/* Javascript Code You can Create separate file for Javascript */
+         var slideIndex = 1;
+         showSlides(slideIndex);
 
+         function plusSlides(n) {
+           showSlides(slideIndex += n);
+         }
+
+         function currentSlide(n) {
+           showSlides(slideIndex = n);
+         }
+
+         function showSlides(n) {
+           var i;
+           var slides = document.getElementsByClassName("mySlides");
+           var dots = document.getElementsByClassName("dot");
+           if (n > slides.length) { slideIndex = 1 }
+           if (n < 1) { slideIndex = slides.length }
+           for (i = 0; i < slides.length; i++) {
+             slides[i].style.display = "none";
+           }
+           for (i = 0; i < dots.length; i++) {
+             dots[i].className = dots[i].className.replace(" active", "");
+           }
+           slides[slideIndex - 1].style.display = "block";
+           dots[slideIndex - 1].className += " active";
+         }
+
+      </script>
+   </body>
 </html>

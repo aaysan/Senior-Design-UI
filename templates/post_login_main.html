@@ -31,16 +31,18 @@
 	}
 
 </style>
+<head>
+	<meta name="viewport" content="width=device-width, length=device-length, initial-scale=1.0">
 </head>
-<body>
+<body scroll="no" style="overflow: hidden">
 	<link rel="stylesheet" type= "text/css" href = "static/css/style.css?q=1280549782">
 
 	<div class="backimage">
 		<div class="maintext">
-			<h1 style="font-size: 30px">{{ name }}</h1>
+			<h1 style="font-size: x-large">{{ name }}</h1>
 		</div>
 		<div class="weather">
-			<h1 style="font-size: 30px">Temperature: {{ temperature }}</h1>
+			<h1 style="font-size: x-large">Temperature: {{ temperature }}</h1>
 		</div>
 			<center>
 				<p>&nbsp;</p>
@@ -48,7 +50,7 @@
 				<p>&nbsp;</p>
 				<p>
 
-					<button onclick="window.location.href='/add_clothes'"class="func Add">Add Clothes</button>
+					<button onclick="window.location.href='/add_clothes'"class="func">Add Clothes</button>
 					<button onclick="window.location.href='/clothes_viewer?mode=select'"class="func Select">Select Clothes</button>
 					<button onclick="window.location.href='/recommend_clothes'"class="func Recommend">Recommend Clothes</button>
 					<button onclick="window.location.href='/clothes_viewer?mode=remove'"class="func Remove">Remove Clothes</button>
