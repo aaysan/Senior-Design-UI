@@ -142,7 +142,6 @@ def add_new_clothes():
     FILENAME_TO_CLOTHES[filename] = Clothes(
         filename, VIEWER_NAME, opening_slot, in_closet=False)
 
-
     file_path = FILENAME_TO_CLOTHES[filename].static_filename
 
     cv2.imwrite(file_path, frame)
@@ -152,18 +151,18 @@ def add_new_clothes():
     for item in colors:
         item['name'] = re.sub(
             "([a-z])([A-Z])", "\g<1> \g<2>", item['name'])
-                
+
     return render_template('add_new_radio_buttons.html', names=names, colors=colors, filename=filename)
 
 
 @app.route("/add_new_clothes_response", methods=['GET'])
 def add_new_clothes_response():
     filename = request.args['filename']
-    FILENAME_TO_CLOTHES[filename].description = request.args['desc'].split(',')[0]
+    FILENAME_TO_CLOTHES[filename].description = request.args['desc'].split(',')[
+        0]
     FILENAME_TO_CLOTHES[filename].occasion = request.args['desc'].split(',')[1]
     if 'color' in request.args:
         FILENAME_TO_CLOTHES[filename].color = request.args['color']
-
 
     return render_template('load.html', filename=filename,
                            title="Finding an opening for {}".format(request.args['desc']), mode="add-existing")
@@ -236,7 +235,7 @@ def close_door_begin():
     return render_template('close_door.html', title=title, mode=mode, filename=request.args.get('filename'))
 
 
-@app.route("/recommend_clothes",methods=['GET','POST'])
+@app.route("/recommend_clothes", methods=['GET', 'POST'])
 def recommend_clothes():
     weather = gw.get_weather_info()
     temperature = "%0d C" % (weather["Temperature"] - 273)
@@ -246,19 +245,13 @@ def recommend_clothes():
 
         possible_attires = []
         for filename, item in FILENAME_TO_CLOTHES.items():
-            # print("----------------------------")
-            # print(VIEWER_NAME)
-            # print(item.owner)
             if item.owner == VIEWER_NAME:
                 possible_attires.append(item)
 
-        result = ms.make_suggestions(weather,occasion,possible_attires)
+        result = ms.make_suggestions(weather, occasion, possible_attires)
 
-
-
-
-
-        return str(result)
+        return render_template('clothes_viewer.html', name=VIEWER_NAME, temperature=temperature,
+                               filename_tup=result, data_len=len(result), title='All recommendations for {}'.format(occasion), mode='select')
 
     return render_template('recommend_clothes.html', name=VIEWER_NAME, temperature=temperature)
 
