@@ -1,13 +1,14 @@
 # Mehmet Alp Aysan
 import sys
 import os
-sys.path.insert(0, './../Senior_Design/')
+
 # print(sys.path)
 
 from flask import render_template
 from flask import request
 from flask import Flask
 import re
+import bluetooth
 import blttest as b
 import get_weather as gw
 import time
@@ -22,11 +23,13 @@ import make_suggestions as ms
 from flask_cors import CORS
 app = Flask(__name__, instance_relative_config=False)
 CORS(app)
-TOTAL_INDICES = 10
+TOTAL_INDICES = 16
 MODES = {'select', 'remove', 'add-existing'}
 VIEWER_NAME = "Alp Aysan"  # default
 FILENAME_TO_CLOTHES = {}
 CLOSET_POSITION = 0
+
+
 
 
 class Clothes:
@@ -78,11 +81,13 @@ def _find_opening_slot():
     # raise Exception("CLOSET IS FULL--TODO HANDLE THIS CASE")
 
 def indoor():
-    indoort,indoorh = b.read_data()
+	pass    
+	#indoort,indoorh = b.read_data()
 
 
 @app.route("/", methods=['GET', 'POST'])
 def hello():
+    os.system("python3 distance_test.py")
     return render_template('main_page.html')
 
 
@@ -106,8 +111,13 @@ def face_recog():
 def show_options():
     mode = request.args.get('mode')
     if request.args.get('mode'):
+
         # call blttest.close_door()
-        time.sleep(3)
+        sock = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
+        sock.connect((b.b_addr, b.port))
+        b.closet_close(sock)
+        sock.close()
+
         filename = request.args.get('filename')
         if mode == 'select':
             FILENAME_TO_CLOTHES[filename].in_closet = False
@@ -224,7 +234,13 @@ def retrieve_select_done():
     displacement = _calc_displacement(FILENAME_TO_CLOTHES[filename].position)
     print("Calling: blttest.closet_open({})\ttarget={}\tcurr_pos={}".format(
         displacement, FILENAME_TO_CLOTHES[filename].position, CLOSET_POSITION))
-    time.sleep(3)  # call blttest.closet_open(displacement) here
+
+    # call blttest.closet_open(displacement) heres
+    sock = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
+    sock.connect((b.b_addr, b.port))
+    b.closet_open(sock,displacement)
+    sock.close()
+
     CLOSET_POSITION = FILENAME_TO_CLOTHES[filename].position
     return "done fetching {}".format(filename)  # return response is not used
 
@@ -239,6 +255,14 @@ def close_door_begin():
     elif mode == 'add-existing':
         title = "Please insert clothes onto the opening"
     return render_template('close_door.html', title=title, mode=mode, filename=request.args.get('filename'))
+
+@app.route("/read_data_flask")
+def read_data_flask():
+   sock = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
+   sock.connect((b.b_addr, b.port))
+   data = b.read_data(sock)
+   sock.close()
+   return "{}/{}".format(data[0], data[1])
 
 
 @app.route("/recommend_clothes", methods=['GET', 'POST'])
@@ -275,6 +299,9 @@ def add_header(response):
 
 
 if __name__ == '__main__':
+    # FILENAME_TO_CLOTHES = {} # metadata['filename_to_clothes']
+    
+
     with open("saved_state.pkl", 'rb') as fp:
         metadata = pkl.load(fp)
         FILENAME_TO_CLOTHES = metadata['filename_to_clothes']
@@ -291,4 +318,5 @@ if __name__ == '__main__':
         # del FILENAME_TO_CLOTHES['4037302841.jpg']
 
     # _save_global_state()
+    #b.init()
     app.run(debug=True)

@@ -1,21 +1,19 @@
-# import bluetooth
+import bluetooth
 import struct
 import requests
 import os
 import time
 import numpy as np
-import cv2
 
-b_addr = "98:D3:11:FC:18:90"
-port = 1
-##sock = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
-##sock.connect((b_addr,port))
-NGROK = 'http://35.243.174.102:8080/get_name'
-CLIENT_ID = "Your_applicatoins_client_id"
-
+sock = None
 
 ##sock.close()
-
+b_addr = "20:19:02:13:00:59"
+port = 1
+#sock = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
+#sock.connect((b_addr,port))
+NGROK = 'http://35.243.174.102:8080/get_name'
+CLIENT_ID = "Your_applicatoins_client_id"
 
 def get_name():
     os.system("raspistill -t 1000 -vf -o tmp.png")
@@ -42,7 +40,7 @@ def get_name():
 
     print(t1-t0)
 
-def closet_open(displacement):
+def closet_open(sock,displacement):
     if displacement < 10:
         text = 'o0' + str(displacement)
     else:
@@ -57,7 +55,7 @@ def closet_open(displacement):
     return
 
 
-def closet_close():
+def closet_close(sock):
     sock.send('ccc')
     data = ""
     while(1):
@@ -68,7 +66,7 @@ def closet_close():
     return
 
 
-def read_data():
+def read_data(sock):
     sock.send('rrr')
     count = 0
     data = ""
@@ -97,7 +95,20 @@ def read_data():
         if(count == 3):
             break
     return (indoort,indoorh)
-    
+
+def distance(sock):
+    received = False
+
+    data = ""
+    os.system("vcgencmd display_power 0")
+    while(1):
+        data += sock.recv(1).decode("utf-8")
+        print(data)
+        if("Detected" in data):
+            ## print(data)
+            os.system("vcgencmd display_power 1")
+            data = ""
+            break
     '''
 
 
@@ -123,4 +134,4 @@ def read_data():
 # sock.send(text)
 # closet_close()
 # read_data()
-# sock.close()
+#sock.close()
