@@ -18,14 +18,14 @@ CLIENT_ID = "Your_applicatoins_client_id"
 
 
 def get_name():
-    # os.system("raspistill -vf -o tmp.png")
+    os.system("raspistill -t 1000 -vf -o tmp.png")
 
 
-    cap = cv2.VideoCapture(0)
-    time.sleep(0.5)
+    # cap = cv2.VideoCapture(0)
+    # time.sleep(0.5)
     # while True:
-    ret, frame = cap.read()
-    cv2.imwrite("tmp.png",frame)
+    # ret, frame = cap.read()
+    # cv2.imwrite("tmp.png",frame)
         # input1 = input()
         # if input1 == "o":
         #     break
@@ -78,11 +78,13 @@ def read_data():
         if(' ts' in data and 'te\n' in data):
             idx = data.find(" ts")
             print(data[idx:])
+            indoort = data[idx:]
             data = ""
             count += 1
         elif(' hs' in data and 'he\n' in data):
             idx = data.find(" hs")
             print(data[idx:])
+            indoorh = data[idx:]	
             data = ""
             count += 1
         elif(' ms' in data and 'me\n' in data):
@@ -94,8 +96,8 @@ def read_data():
             pass
         if(count == 3):
             break
-
-
+    return (indoort,indoorh)
+    
     '''
 
 

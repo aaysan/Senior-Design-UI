@@ -77,6 +77,9 @@ def _find_opening_slot():
     return
     # raise Exception("CLOSET IS FULL--TODO HANDLE THIS CASE")
 
+def indoor():
+    indoort,indoorh = b.read_data()
+
 
 @app.route("/", methods=['GET', 'POST'])
 def hello():
@@ -130,11 +133,11 @@ def add_clothes():
 @app.route("/add_new_clothes", methods=['GET', 'POST'])
 def add_new_clothes():
     # Take Picture
-    cap = cv2.VideoCapture(0)
-    time.sleep(0.5)
+    # cap = cv2.VideoCapture(0)
+####    time.sleep(0.5)
 
-    ret, frame = cap.read()
-    cap.release()
+##    ret, frame = cap.read()
+##    cap.release()
 
     opening_slot = _find_opening_slot()
     # TODO (what happens if all spots are filled??)
@@ -145,7 +148,9 @@ def add_new_clothes():
 
     file_path = FILENAME_TO_CLOTHES[filename].static_filename
 
-    cv2.imwrite(file_path, frame)
+    picture_command = "raspistill -t 1000 -vf -o " + file_path
+##    cv2.imwrite(file_path, frame)
+    os.system(picture_command)
     names, colors = Apparel.finditemandcolor(file_path)
 
     # Change camelCase to camel case for colors
