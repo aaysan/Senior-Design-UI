@@ -94,7 +94,7 @@ def read_data(sock):
             pass
         if(count == 3):
             break
-    return (indoort,indoorh)
+    return indoort,indoorh
 
 def distance(sock):
     received = False

@@ -30,6 +30,23 @@
     color: navy;
   }
 
+.inweather {
+		text-align: left;
+		position: absolute;
+		bottom: 10%;
+		left: 20%;
+		transform: translate(-50%, -50%);
+		color: navy;
+	}
+	.inhumidity {
+		text-align: left;
+		position: absolute;
+		bottom: 10%;
+		right: 3%;
+		transform: translate(-50%, -50%);
+		color: navy;
+	}
+
 </style>
 </head>
 <body scroll="no" style="overflow: hidden" >
@@ -42,6 +59,12 @@
     <div class="weather">
       <h1 style="font-size: x-large">Temperature: {{ temperature }}</h1>
     </div>
+<div class="inweather">
+			<h1 style="font-size: x-large">Indoor Temperature: {{ intemperature }}</h1>
+		</div>
+		<div class="inhumidity">
+			<h1 style="font-size: x-large">Indoor Humidity: {{ inhumidity }}</h1>
+		</div>
 
       <center>
         <p>&nbsp;</p>
