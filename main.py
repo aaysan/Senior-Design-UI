@@ -30,8 +30,6 @@ FILENAME_TO_CLOTHES = {}
 CLOSET_POSITION = 0
 
 
-
-
 class Clothes:
     def __init__(self, filename, owner, position, description="T-Shirt", in_closet=True, color="#fff", occasion="Casual"):
         self.filename = filename
@@ -113,13 +111,13 @@ def show_options():
     if request.args.get('mode'):
 
         # call blttest.close_door()
-        try:
-            sock = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
-            sock.connect((b.b_addr, b.port))
-            b.closet_close(sock)
-            sock.close()
-        except:
-            pass
+        #try:
+            #sock = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
+            #sock.connect((b.b_addr, b.port))
+        b.closet_close()
+            #sock.close()
+        #except:
+            #pass
 
         filename = request.args.get('filename')
         if mode == 'select':
@@ -132,30 +130,55 @@ def show_options():
         _save_global_state()
 
     weather = gw.get_weather_info()
-    temperature = "%0d C" % (weather["Temperature"] - 273)
-    sock = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
-    sock.connect((b.b_addr, b.port))
-    intmp,inhum= b.read_data(sock)
-    sock.close()
-    print (intmp,inhum)
+    try:
+        temperature = "%0d C" % (weather["Temperature"] - 273)
+        #sock = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
+        #sock.connect((b.b_addr, b.port))
+        intmp,inhum= b.read_data()
+        #sock.close()
+        print (intmp,inhum)
 
-    idx1 = intmp.find("=")
-    idx2  = intmp.find("C")
-    intemperature = intmp[idx1+2:idx2+1]
+        idx1 = intmp.find("=")
+        idx2  = intmp.find("C")
+        intemperature = intmp[idx1+2:idx2+1]
 
-    idx1 = inhum.find("=")
-    idx2  = inhum.find("H")
-    inhumidity = inhum[idx1+2:idx2+1]
+        idx1 = inhum.find("=")
+        idx2  = inhum.find("H")
+        inhumidity = inhum[idx1+2:idx2+1]
+    except:
+        intemperature = '25.3 C'
+        inhumidity = '15.4 %RH'
+        
+
   
-    sock.close()
     return render_template('post_login_main.html', name=VIEWER_NAME, temperature=temperature,intemperature   =  intemperature  ,inhumidity = inhumidity)
 
 
 @app.route("/add_clothes", methods=['GET', 'POST'])
 def add_clothes():
-    weather = {'Temperature': 300}  # gw.get_weather_info()
+    weather = gw.get_weather_info()
     temperature = "%0d C" % (weather["Temperature"] - 273)
-    return render_template('add_clothes.html', name=VIEWER_NAME, temperature=temperature)
+
+    try:
+        temperature = "%0d C" % (weather["Temperature"] - 273)
+        #sock = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
+        #sock.connect((b.b_addr, b.port))
+        intmp,inhum= b.read_data()
+        #sock.close()
+        print (intmp,inhum)
+
+        idx1 = intmp.find("=")
+        idx2  = intmp.find("C")
+        intemperature = intmp[idx1+2:idx2+1]
+
+        idx1 = inhum.find("=")
+        idx2  = inhum.find("H")
+        inhumidity = inhum[idx1+2:idx2+1]
+    except:
+        intemperature = '25.3 C'
+        inhumidity = '15.4 %RH'
+
+    return render_template('add_clothes.html', name=VIEWER_NAME, temperature=temperature,intemperature=intemperature,inhumidity=inhumidity)
 
 
 @app.route("/add_new_clothes", methods=['GET', 'POST'])
@@ -254,13 +277,16 @@ def retrieve_select_done():
         displacement, FILENAME_TO_CLOTHES[filename].position, CLOSET_POSITION))
 
     # call blttest.closet_open(displacement) heres
+    b.closet_open(displacement)
+    '''
     try:
         sock = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
         sock.connect((b.b_addr, b.port))
         b.closet_open(sock,displacement)
         sock.close()
     except:
-        pass
+        print("closet open error")
+        pass'''
 
     CLOSET_POSITION = FILENAME_TO_CLOTHES[filename].position
     return "done fetching {}".format(filename)  # return response is not used
@@ -279,10 +305,10 @@ def close_door_begin():
 
 @app.route("/read_data_flask")
 def read_data_flask():
-   sock = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
-   sock.connect((b.b_addr, b.port))
-   data = b.read_data(sock)
-   sock.close()
+   #sock = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
+   #sock.connect((b.b_addr, b.port))
+   data = b.read_data()
+   #sock.close()
    return "{}/{}".format(data[0], data[1])
 
 
@@ -337,7 +363,8 @@ if __name__ == '__main__':
         # del FILENAME_TO_CLOTHES['4444.jpg']
         # del FILENAME_TO_CLOTHES['3333.jpg']
         # del FILENAME_TO_CLOTHES['4037302841.jpg']
-
+    FILENAME_TO_CLOTHES = {}
+    CLOSET_POSITION = 14
     # _save_global_state()
     #b.init()
     app.run(debug=True)
