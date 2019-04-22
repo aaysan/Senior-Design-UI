@@ -18,7 +18,7 @@ def _blt_init():
     return ser
 
 def get_name():
-    os.system("raspistill -t 1000 -vf -o tmp.png")
+    os.system("raspistill -t 3000 -vf -o tmp.png")
 
     t0 = time.time()
     files = {'file': open("tmp.png","rb")}

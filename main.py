@@ -28,6 +28,7 @@ MODES = {'select', 'remove', 'add-existing'}
 VIEWER_NAME = "Alp Aysan"  # default
 FILENAME_TO_CLOTHES = {}
 CLOSET_POSITION = 0
+IS_CLOSED = True
 
 
 class Clothes:
@@ -107,17 +108,20 @@ def face_recog():
 
 @app.route("/logged_in")
 def show_options():
+    global IS_CLOSED
     mode = request.args.get('mode')
     if request.args.get('mode'):
 
         # call blttest.close_door()
-        #try:
+        try:
             #sock = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
             #sock.connect((b.b_addr, b.port))
-        b.closet_close()
+            if not IS_CLOSED:
+                b.closet_close()
+                IS_CLOSED = True
             #sock.close()
-        #except:
-            #pass
+        except:
+            pass
 
         filename = request.args.get('filename')
         if mode == 'select':
@@ -199,7 +203,7 @@ def add_new_clothes():
 
     file_path = FILENAME_TO_CLOTHES[filename].static_filename
 
-    picture_command = "raspistill -t 1000 -vf -o " + file_path
+    picture_command = "raspistill -t 3000 -vf -o " + file_path
 ##    cv2.imwrite(file_path, frame)
     os.system(picture_command)
     names, colors = Apparel.finditemandcolor(file_path)
@@ -270,14 +274,16 @@ def retrieve_select_loading():
 
 @app.route("/retrieve_select_done")
 def retrieve_select_done():
-    global CLOSET_POSITION
+    global CLOSET_POSITION, IS_CLOSED
     filename = request.args.get('filename')
     displacement = _calc_displacement(FILENAME_TO_CLOTHES[filename].position)
     print("Calling: blttest.closet_open({})\ttarget={}\tcurr_pos={}".format(
         displacement, FILENAME_TO_CLOTHES[filename].position, CLOSET_POSITION))
 
     # call blttest.closet_open(displacement) heres
-    b.closet_open(displacement)
+    if IS_CLOSED:
+        b.closet_open(displacement)
+        IS_CLOSED = False
     '''
     try:
         sock = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
@@ -364,7 +370,7 @@ if __name__ == '__main__':
         # del FILENAME_TO_CLOTHES['3333.jpg']
         # del FILENAME_TO_CLOTHES['4037302841.jpg']
     FILENAME_TO_CLOTHES = {}
-    CLOSET_POSITION = 14
+    CLOSET_POSITION = 0
     # _save_global_state()
     #b.init()
     app.run(debug=True)
